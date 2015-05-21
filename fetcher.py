@@ -15,7 +15,7 @@ except Exception as e:
     print(e)
     caching = False
     r = ""
-    logging.warn('Due to %s, can not connect to the redis and disable caching', e)
+    logging.warn('Due to %s, can not connect to the redis and disable caching\n Please check.', e)
 
 
 @tornado.gen.coroutine

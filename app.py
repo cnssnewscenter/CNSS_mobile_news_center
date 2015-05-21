@@ -16,12 +16,14 @@ def runapp():
     import views
 
     settings = {
-        "debug": options.DEBUG
+        "debug": options.DEBUG,
+        "static_path": os.path.join(os.path.dirname(__file__), "static")
     }
 
     application = tornado.web.Application([
         ("/api/p/(\d*)", views.News),
         ("/api/index", views.Index),
+        ("/(.*)", views.RedirectStaticFileHandler, {"path": 'static/index.html'})
         ], **settings)
     application.listen(8001)
     tornado.ioloop.IOLoop.instance().start()

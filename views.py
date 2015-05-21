@@ -7,6 +7,7 @@ import re
 import json
 from lxml.html.clean import Cleaner
 from tornado.options import options
+import os
 
 cleaner = Cleaner(javascript=True, scripts=True, style=True)
 
@@ -104,16 +105,43 @@ class Index(tornado.web.RequestHandler):
         self.set_header("Content-type", 'application/json')
         if fetcher.caching:
             cached = fetcher.r.get('local/index')
-            # if cached:
-            #     self.write(cached)
-            #     return
+            if cached:
+                self.write(cached)
+                return
         content = yield self.gen()
         fetcher.r.setex('local/index', content, options.CACHE_TIME)
         self.write(content)
 
 
+
 class NewsCatalog(tornado.web.RequestHandler):
 
     @coroutine
+    def gen(self):
+        news = yield fetcher.get_page('http://www.new1.uestc.edu.cn/?n=UestcNews.Front.Category.Page&CatId=42')
+        news = makeParser(news)
+        result = [{"title": i.find('.//h3').text_content().strip(), 'link': i.find('.//a').attrib['href'], 'intro': i.find('.//p[@class="desc"]').text_content().strip()} for i in top_news_index.xpath("//div[@id='Degas_news_list']/ul/li")[:10]]
+        return json.dumps(result)
+
+    @coroutine
     def get(self):
-        pass
+        self.set_header("Content-type", 'application/json')
+        if fetcher.caching:
+            cached = fetcher.r.get('local/index')
+            if cached:
+                self.write(cached)
+                return
+        content = yield self.gen()
+        fetcher.r.setex('local/index', content, options.CACHE_TIME)
+        self.write(content)
+
+
+class RedirectStaticFileHandler(tornado.web.StaticFileHandler):
+
+    def initialize(self, path, default_filename=None):
+        root, self.filename = os.path.split(path)
+        super(RedirectStaticFileHandler, self).initialize(root)
+
+    @coroutine
+    def get(self, include_body=True):
+        yield super(RedirectStaticFileHandler, self).get(self.filename)

@@ -13,3 +13,10 @@
 ## 主要难点
 
 * Tornado 的异步处理
+
+## 部署
+
+1. 安装 Redis和Python3
+2. 启动 Redis 服务
+3. 安装 Python 依赖
+4. 启动服务 `app.py`
