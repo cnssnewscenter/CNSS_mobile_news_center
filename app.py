@@ -23,6 +23,7 @@ def runapp():
     application = tornado.web.Application([
         ("/api/p/(\d*)", views.News),
         ("/api/index", views.Index),
+        ("/comp/(.*)", tornado.web.StaticFileHandler, {'path': "bower_components/"}),
         ("/(.*)", views.RedirectStaticFileHandler, {"path": 'static/index.html'})
         ], **settings)
     application.listen(8001)

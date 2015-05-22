@@ -120,7 +120,7 @@ class NewsCatalog(tornado.web.RequestHandler):
     def gen(self):
         news = yield fetcher.get_page('http://www.new1.uestc.edu.cn/?n=UestcNews.Front.Category.Page&CatId=42')
         news = makeParser(news)
-        result = [{"title": i.find('.//h3').text_content().strip(), 'link': i.find('.//a').attrib['href'], 'intro': i.find('.//p[@class="desc"]').text_content().strip()} for i in top_news_index.xpath("//div[@id='Degas_news_list']/ul/li")[:10]]
+        result = [{"title": i.find('.//h3').text_content().strip(), 'link': i.find('.//a').attrib['href'], 'intro': i.find('.//p[@class="desc"]').text_content().strip()} for i in news.xpath("//div[@id='Degas_news_list']/ul/li")]
         return json.dumps(result)
 
     @coroutine

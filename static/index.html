@@ -1,12 +1,116 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>新闻中心 | 电子科技大学</title>
-    <link rel="stylesheet" href="/static/css/">
-</head>
-<body>
-    <script src="/static/js/"></script>
-    <script src="/static/js/"></script>
-</body>
+<!doctype html>
+<html lang="zh" ng-app="MobileNews">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="/comp/foundation/css/normalize.min.css">
+    <link rel="stylesheet" href="/comp/foundation/css/foundation.min.css">
+    <link rel="stylesheet" href="/comp/slick-carousel/slick/slick.css">
+    <link rel="stylesheet" href="/comp/slick-carousel/slick/slick-theme.css">
+    <link rel="stylesheet" href="/comp/angular-loading-bar/build/loading-bar.min.css">
+    <link rel="stylesheet" href="/comp/angular-spinkit/build/angular-spinkit.min.css">
+    <!-- <link rel="stylesheet" href="/static/css/app.css"> -->
+    <script src="/comp/jquery/dist/jquery.min.js"></script>
+    <script src="/comp/angular/angular.js"></script>
+    <script src="/comp/angular-route/angular-route.min.js"></script>
+    <script src="/comp/angular-resource/angular-resource.min.js"></script>
+    <script src="/comp/angular-animate/angular-animate.min.js"></script>
+    <script src="/comp/angular-foundation/mm-foundation.min.js"></script>
+    <script src="/comp/angular-foundation/mm-foundation-tpls.min.js"></script>
+    <script src="/comp/slick-carousel/slick/slick.js"></script>
+    <script src="/comp/angular-slick/dist/slick.min.js"></script>
+    <script src="/comp/angular-loading-bar/build/loading-bar.min.js"></script>
+    <script src="/comp/angular-spinkit/build/angular-spinkit.min.js"></script>
+
+    <script src="/static/js/app.js"></script>
+  </head>
+
+  <style>
+  .inner-wrap{
+    min-height: 100vh;
+  }
+  .info{
+    margin: 1em;
+    text-align: center;
+    color: #444;
+    font-size: 0.9em;
+  }
+  .main-section{
+    padding: 0 0.5em;
+  }
+  .main-section img{
+    margin: auto;
+    display: block;
+    max-width: 100%
+  }
+  .full-page{
+    height: 100vh;
+    width: 100vw;
+    z-index: 9999;
+    position: fixed;
+    display: flex;
+    background-color: #0F6EA7;
+
+  }
+  .full-page cube-grid-spinner{
+    margin: auto
+  }
+  .hide{
+    opacity: 0;
+  }
+  .cube-grid-spinner>div{
+    background-color: white;
+  }
+  .loading.ng-enter{
+    -webkit-transition: opacity 0.3s;
+    -o-transition: opacity 0.3s;
+    transition: opacity 0.3s;
+    opacity: 0;
+  }
+  .loading.ng-enter.ng-enter-active{
+    opacity: 1;
+  }
+  .loading.ng-leave{
+    -webkit-transition: opacity 1s;
+    -o-transition: opacity 1s;
+    transition: opacity 1s;
+    opacity: 1;
+  }
+  .loading.ng-leave.ng-leave-active{
+    opacity: 0;
+  }
+  </style>
+
+  <body>
+    <div class="full-page loading" ng-if="loading">
+        <cube-grid-spinner></cube-grid-spinner>
+    </div>
+    <div class="off-canvas-wrap">
+        <div class="inner-wrap">
+            <nav class="tab-bar">
+                <section class="left-small">
+                    <a class="left-off-canvas-toggle menu-icon" ><span></span></a>
+                </section>
+
+                <section class="middle tab-bar-section">
+                    <h1 class="center title">新闻中心</h1>
+                </section>
+
+            </nav>
+
+            <aside class="left-off-canvas-menu">
+                <ul class="off-canvas-list">
+                    <li ng-repeat="col in columns"><a href="{{col.link}}">{{col.name}}</a></li>
+                </ul>
+                <div class="info">由 凝聚网络工作室 提供</div>
+            </aside>
+            <section class="main-section" ng-view>
+                
+            </section>
+            <a class="exit-off-canvas"></a>
+        </div>
+    </div>
+  </body>
 </html>
