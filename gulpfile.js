@@ -6,30 +6,38 @@ var gulp = require("gulp"),
     rev = require("gulp-rev"),
     revReplace = require("gulp-rev-replace")
     minifyInline = require('gulp-minify-inline'),
-    debug = require("gulp-debug");
+    debug = require("gulp-debug"),
+    entities = require("gulp-html-entities"),
+    minifyHTML = require('gulp-minify-html');
+
+var option = {
+    empty: true,
+    // conditionals: false,
+    quotes: true,
+    spare: true
+}
 
 gulp.task('script', function() {
     var assets = useref.assets({searchPath: '.'});
     return gulp.src("static/index.html")
         .pipe(assets)
         .pipe(gulpif("*.js", uglify()))
-        .pipe(gulpif("*.js", minifyCss()))
+        .pipe(gulpif("*.css", minifyCss()))
         .pipe(debug({title: "combine"}))
         .pipe(rev())
         .pipe(assets.restore())
         .pipe(useref())
         .pipe(revReplace())
+        .pipe(minifyInline())
+        .pipe(entities('decode'))
+        .pipe(minifyHTML(option))
         .pipe(gulp.dest("./dist"))
 });
-gulp.task("inline_index", function() {
-    return gulp.src('static/*.html')
-        .pipe(minifyInline())
-        .pipe(gulp.dest("static/"))
-})
 gulp.task("inline_template", function(){
     return gulp.src("static/templates/*.html")
         .pipe(minifyInline())
-        .pipe(gulp.dest("static/templates/"))
+        .pipe(entities('decode'))
+        .pipe(minifyHTML(option))
+        .pipe(gulp.dest("dist/templates/"))
 })
-gulp.task("inline", ["inline_index", "inline_template"])
-gulp.task("default", ["inline", "script"])
+gulp.task("default", ["script","inline_template"])
