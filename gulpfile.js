@@ -27,10 +27,11 @@ gulp.task('script', function() {
         .pipe(debug({title: "combined"}))
         .pipe(assets.restore())
         .pipe(useref())
+        .pipe(debug({title: "Changed"}))
         .pipe(revReplace())
-        .pipe(minifyInline())
-        .pipe(entities('decode'))
-        .pipe(minifyHTML(option))
+        .pipe(gulpif("*.html",minifyInline()))
+        .pipe(gulpif("*.html",minifyHTML(option)))
+        .pipe(gulpif("*.html",entities('decode')))
         .pipe(gulp.dest("./dist"))
 });
 gulp.task("inline_template", function(){
