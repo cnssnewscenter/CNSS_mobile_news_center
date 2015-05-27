@@ -14,7 +14,7 @@ gulp.task('script', function() {
         .pipe(assets)
         .pipe(gulpif("*.js", uglify()))
         .pipe(gulpif("*.js", minifyCss()))
-        .pipe(debug({minimal: false}))
+        .pipe(debug({title: "combine"}))
         .pipe(rev())
         .pipe(assets.restore())
         .pipe(useref())
