@@ -9,17 +9,17 @@ var gulp = require("gulp"),
     debug = require("gulp-debug");
 
 gulp.task('script', function() {
-    var assets = useref.assets();
+    var assets = useref.assets({searchPath: '.'});
     return gulp.src("static/index.html")
         .pipe(assets)
         .pipe(gulpif("*.js", uglify()))
         .pipe(gulpif("*.js", minifyCss()))
-        .pipe(debug({"title": "Title"}))
+        .pipe(debug({minimal: false}))
+        .pipe(rev())
         .pipe(assets.restore())
         .pipe(useref())
-        .pipe(debug({"title": 'Name'}))
         .pipe(revReplace())
-        .pipe(gulp.dest("dist"))
+        .pipe(gulp.dest("./dist"))
 });
 gulp.task("inline_index", function() {
     return gulp.src('static/*.html')
