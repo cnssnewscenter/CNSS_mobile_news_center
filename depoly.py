@@ -16,6 +16,6 @@ if "DEBUG" in open("config.py").read():
     with open("config.py", 'w') as fp:
         fp.write(f)
 else:
-    with open("config.py", 'w+a') as fp:
+    with open("config.py", 'a') as fp:
         fp.write("\nDEBUG = False")
 print("Update the config")
