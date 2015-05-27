@@ -21,10 +21,10 @@ gulp.task('script', function() {
     var assets = useref.assets({searchPath: '.'});
     return gulp.src("static/index.html")
         .pipe(assets)
-        .pipe(gulpif("*.js", uglify()))
+        // .pipe(gulpif("*.js", uglify()))
         .pipe(gulpif("*.css", minifyCss()))
-        .pipe(debug({title: "combine"}))
         .pipe(rev())
+        .pipe(debug({title: "combined"}))
         .pipe(assets.restore())
         .pipe(useref())
         .pipe(revReplace())
