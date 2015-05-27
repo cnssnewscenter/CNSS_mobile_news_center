@@ -5,17 +5,19 @@ var gulp = require("gulp"),
     minifyCss = require('gulp-minify-css'),
     rev = require("gulp-rev"),
     revReplace = require("gulp-rev-replace")
-    minifyInline = require('gulp-minify-inline');
+    minifyInline = require('gulp-minify-inline'),
+    debug = require("gulp-debug");
 
 gulp.task('script', function() {
-    var assets = useref.assets({
-    });
+    var assets = useref.assets();
     return gulp.src("static/index.html")
         .pipe(assets)
         .pipe(gulpif("*.js", uglify()))
         .pipe(gulpif("*.js", minifyCss()))
+        .pipe(debug({"title": "Title"}))
         .pipe(assets.restore())
         .pipe(useref())
+        .pipe(debug({"title": 'Name'}))
         .pipe(revReplace())
         .pipe(gulp.dest("dist"))
 });
