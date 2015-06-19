@@ -38,7 +38,7 @@ def runapp():
         ])
         settings['static_path'] = os.path.join(os.path.dirname(__file__), "dist")
     application = tornado.web.Application(route, **settings)
-    application.listen(8001)
+    application.listen(8001, address="0.0.0.0")
     tornado.ioloop.IOLoop.instance().start()
 
 if __name__ == "__main__":
