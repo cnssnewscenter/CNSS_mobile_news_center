@@ -80,6 +80,12 @@ class Index(tornado.web.RequestHandler):
     def translateLink(self, link):
         return link
 
+    def imageLink(self, link):
+        if len(link) and link.startswith("/"):
+            return "http://www.new1.uestc.edu.cn/"+link
+        else:
+            return link
+
     @coroutine
     def gen(self):
         result = {}
@@ -98,7 +104,7 @@ class Index(tornado.web.RequestHandler):
         top_news_index = yield fetcher.get_page('http://www.new1.uestc.edu.cn/?n=UestcNews.Front.Category.Page&CatId=42')
         top_news_index = makeParser(top_news_index)
         # 返回前十条
-        result['top'] = [{"title": i.find('.//h3').text_content().strip(), 'link': i.find('.//a').attrib['href'], 'intro': i.find('.//p[@class="desc"]').text_content().strip()} for i in top_news_index.xpath("//div[@id='Degas_news_list']/ul/li")[:10]]  # todo extract the magic number
+        result['top'] = [{'img':self.imageLink(i.find('.//img').attrib['src']),"title": i.find('.//h3').text_content().strip(), 'link': i.find('.//a').attrib['href'], 'intro': i.find('.//p[@class="desc"]').text_content().strip()} for i in top_news_index.xpath("//div[@id='Degas_news_list']/ul/li")[:10]]  # todo extract the magic number
         return json.dumps(result)
 
     @coroutine

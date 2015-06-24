@@ -45,7 +45,8 @@
   .main-section img{
     margin: auto;
     display: block;
-    max-width: 100%
+    /*max-width: 100%*/
+    width: 100%;
   }
   .full-page{
     height: 100vh;
@@ -131,7 +132,7 @@
 
             </nav>
 
-            <aside class="left-off-canvas-menu" ng-controller="IndexCtrl">
+            <aside class="left-off-canvas-menu" ng-controller="SideCtrl">
                 <ul class="off-canvas-list">
                     <li><label>新闻中心</label></li>
                     <li ng-repeat="col in columns"><a ng-href="{{col.link}}">{{col.name}}</a></li>
@@ -140,7 +141,7 @@
             </aside>
             <section class="main-section">
                 <nav class="nav">
-                    <ul ng-controller="IndexCtrl">
+                    <ul ng-controller="MenuCtrl">
                         <li ng-repeat="item in menus">
                             <a ng-href="{{item.url}}">{{item.name}}</a>
                         </li>

@@ -10,9 +10,11 @@
         color: white;
     }
 </style>
-<slick autoplay=true autoplay-speed=5000 speed=300>
+<slick autoplay=true autoplay-speed=5000 speed=300 init-onload=true data='slides'>
     <div ng-repeat="slide in slides">
-        <img ng-src="{{slide.img}}" alt="">
-        <div class="dest">{{slide.dest}}</div>
+        <a href="{{slide.pid}}">
+            <img ng-src="{{slide.img}}" alt="">
+            <div class="dest">{{slide.title}}</div>
+        </a>
     </div>
 </slick>
