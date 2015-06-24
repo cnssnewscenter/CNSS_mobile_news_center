@@ -61,13 +61,14 @@ class News(tornado.web.RequestHandler):
     def get(self, pid):
         self.set_header("Content-type", 'application/json')
         source = "local/api/p/{}".format(pid)
+        cached = fetcher.get_data(source)
+        if cached:
+            self.write(cached)
+            return
+        else:
+            content = yield self.gen(pid)
         if fetcher.caching:
-            cached = fetcher.r.get(source)
-            if cached:
-                self.write(cached)
-                return
-        content = yield self.gen(pid)
-        fetcher.r.setex(source, content, options.CACHE_TIME)
+            fetcher.r.setex(source, content, options.CACHE_TIME)
         self.write(content)
 
 
@@ -103,13 +104,12 @@ class Index(tornado.web.RequestHandler):
     @coroutine
     def get(self):
         self.set_header("Content-type", 'application/json')
-        if fetcher.caching:
-            cached = fetcher.r.get('local/index')
-            if cached:
-                self.write(cached)
-                return
+        cached = yield fetcher.get_data('local/index')
+        if cached:
+            self.write(cached)
+            return
         content = yield self.gen()
-        fetcher.r.setex('local/index', content, options.CACHE_TIME)
+
         self.write(content)
 
 
@@ -132,7 +132,8 @@ class NewsCatalog(tornado.web.RequestHandler):
                 self.write(cached)
                 return
         content = yield self.gen()
-        fetcher.r.setex('local/index', content, options.CACHE_TIME)
+        if fetcher.caching:
+            fetcher.r.setex('local/index', content, options.CACHE_TIME)
         self.write(content)
 
 
