@@ -1,7 +1,6 @@
 var app = angular.module('MobileNews', ['mm.foundation', 'slick', 'ngRoute', 'angular-loading-bar', 'angular-spinkit', 'ngAnimate'])
 
 app.config(["$routeProvider", '$locationProvider', function($routeProvider, $locationProvider){
-    $locationProvider.html5Mode(true)
     $routeProvider.when("/", {
         controller: "IndexCtrl",
         templateUrl: '/static/templates/index.html'
@@ -62,6 +61,10 @@ app.controller('IndexCtrl', ['api', '$scope', function(api, $scope){
         {name:"链接一", link:'#'},
         {name:"链接一", link:'#'},
         {name:"链接一", link:'#'},
+    ]
+    $scope.columns = [
+        {name: "首页", link: "/"},
+        {name: "焦点新闻", link: "/top"}
     ]
 }])
 

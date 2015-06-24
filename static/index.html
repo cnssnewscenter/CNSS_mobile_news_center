@@ -131,8 +131,9 @@
 
             </nav>
 
-            <aside class="left-off-canvas-menu">
+            <aside class="left-off-canvas-menu" ng-controller="IndexCtrl">
                 <ul class="off-canvas-list">
+                    <li><label>新闻中心</label></li>
                     <li ng-repeat="col in columns"><a ng-href="{{col.link}}">{{col.name}}</a></li>
                 </ul>
                 <div class="info">由 凝聚网络工作室 提供</div>
