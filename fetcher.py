@@ -3,6 +3,7 @@ import redis
 from tornado.options import options
 import tornado.gen
 from tornado.log import logging
+from tornado.options import options
 
 
 r = redis.Redis()
@@ -49,5 +50,5 @@ def get_page(url):
     client = tornado.httpclient.AsyncHTTPClient()
     result = yield client.fetch(url)
     if 300 >= result.code >= 200:
-        yield write_data(url, result.body)
+        yield write_data(url, result.body, options['CACHE_TIME'])
     return result.body

@@ -83,6 +83,34 @@
   .loading.ng-leave.ng-leave-active{
     opacity: 0;
   }
+  nav.nav{
+      overflow-x: scroll;
+      -webkit-overflow-scrolling: touch;
+      width: 60em;
+      background: #0072B5;
+
+  }
+  nav.nav ul{
+      margin: 0;
+      padding: 0;
+      height: 2em;
+  }
+  nav.nav ul:after{
+      content: '';
+      display: inline-block;
+      width: 100%;
+  }
+  nav.nav ul li{
+      text-align: center;
+      display: inline-block;
+      width: 25vw;
+      height: 2em;
+      line-height: 2em;
+      list-style: none;
+  }
+  nav.nav ul li a{
+      color:white;
+  }
   </style>
 
   <body>
@@ -98,18 +126,28 @@
 
                 <section class="middle tab-bar-section">
                     <h1 class="center title">新闻中心</h1>
+
                 </section>
 
             </nav>
 
             <aside class="left-off-canvas-menu">
                 <ul class="off-canvas-list">
-                    <li ng-repeat="col in columns"><a href="{{col.link}}">{{col.name}}</a></li>
+                    <li ng-repeat="col in columns"><a ng-href="{{col.link}}">{{col.name}}</a></li>
                 </ul>
                 <div class="info">由 凝聚网络工作室 提供</div>
             </aside>
-            <section class="main-section" ng-view>
-                
+            <section class="main-section">
+                <nav class="nav">
+                    <ul ng-controller="IndexCtrl">
+                        <li ng-repeat="item in menus">
+                            <a ng-href="{{item.url}}">{{item.name}}</a>
+                        </li>
+                    </ul>
+                </nav>
+                <div ng-view>
+
+                </div>
             </section>
             <a class="exit-off-canvas"></a>
         </div>
