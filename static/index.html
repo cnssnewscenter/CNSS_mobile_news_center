@@ -85,19 +85,19 @@
   }
   nav.nav{
       overflow-x: scroll;
+      overflow-y: hidden;
+      white-space: nowrap;
       -webkit-overflow-scrolling: touch;
-      width: 60em;
+      min-width: 100%;
       background: #0072B5;
-
+  }
+  nav.nav::-webkit-scrollbar {
+      display: none;
   }
   nav.nav ul{
       margin: 0;
       padding: 0;
       height: 2em;
-  }
-  nav.nav ul:after{
-      content: '';
-      display: inline-block;
       width: 100%;
   }
   nav.nav ul li{
