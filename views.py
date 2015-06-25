@@ -27,7 +27,7 @@ def tostring(node):
 
 
 def makeParser(ubytes):
-    return html.document_fromstring(ubytes.decode("utf8"))
+    return html.document_fromstring(ubytes.decode("utf8", 'ignore'))
 
 
 class News(tornado.web.RequestHandler):
