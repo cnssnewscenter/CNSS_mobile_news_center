@@ -50,5 +50,5 @@ def get_page(url):
     client = tornado.httpclient.AsyncHTTPClient()
     result = yield client.fetch(url)
     if 300 >= result.code >= 200:
-        yield write_data(url, result.body, options['CACHE_TIME'])
+        yield write_data(url, result.body, options.CACHE_TIME)
     return result.body

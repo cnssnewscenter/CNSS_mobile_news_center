@@ -1,5 +1,7 @@
-<h2>{{passage.title}}</h2>
-<h3><small>{{passage.author | table}}</small></h3>
-<div class="content" ng-bind-html="passage.content">
-</div>
-<h4><small>{{passage.editor | table}}</small></h4>
+<ul class="columns">
+  <li ng-repeat="item in items">
+    <img ng-src="{{item.img}}">
+    <h1>{{item.title}}</h1>
+    <p>{{item.intro}}</p>
+  </li>
+</ul>

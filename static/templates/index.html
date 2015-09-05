@@ -1,15 +1,25 @@
 <style>
     .dest{
         position: relative;
-        top: -1.4em;
+        top: -1.8em;
+        line-height: 1.8em;
         width: 100%;
-        height: 1.4em;
+        height: 1.8em;
         overflow: hidden;
         text-overflow: ellipsis;
-        background-color: rgba(0,0,0,0.4);
+        background-color: rgba(0,0,0,0.6);
         color: white;
+        white-space:nowrap;
+        padding-left: 0.4em;
     }
 </style>
+<nav class="nav">
+    <ul ng-controller="MenuCtrl">
+        <li ng-repeat="item in menus">
+            <a ng-href="{{item.url}}">{{item.name}}</a>
+        </li>
+    </ul>
+</nav>
 <slick autoplay=true autoplay-speed=5000 speed=300 init-onload=true data='slides'>
     <div ng-repeat="slide in slides">
         <a href="{{slide.pid}}">
@@ -18,3 +28,30 @@
         </a>
     </div>
 </slick>
+<!-- Top news -->
+<div class="newslist">
+    <a class="news big row" ng-repeat="i in top" href="{{i.herf}}">
+            <div class="small-4 column">
+                <img ng-src="{{i.img}}">
+            </div>
+            <div class="small-8 column">
+                <div class="title">{{i.title}}</div>
+                <div class="date">{{i.date}}</div>
+            </div>
+        </a>
+    </a>
+</div>
+
+<div class="newslist" ng-repeat="i in ">
+    <div class="list-title">{}</div>
+    <a class="news big row" ng-repeat="i in top" href="{{i.herf}}">
+            <div class="small-4 column">
+                <img ng-src="{{i.img}}">
+            </div>
+            <div class="small-8 column">
+                <div class="title">{{i.title}}</div>
+                <div class="date">{{i.date}}</div>
+            </div>
+        </a>
+    </a>
+</div>

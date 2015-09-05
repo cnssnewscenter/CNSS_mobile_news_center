@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="/bower_components/slick-carousel/slick/slick-theme.css">
     <link rel="stylesheet" href="/bower_components/angular-loading-bar/build/loading-bar.min.css">
     <link rel="stylesheet" href="/bower_components/angular-spinkit/build/angular-spinkit.min.css">
+    <link rel="stylesheet" href="/static/css/index.css">
     <!-- endbuild -->
 
     <!-- build:js /dist/app.js -->
@@ -31,89 +32,6 @@
     <!-- endbuild -->
 
   </head>
-
-  <style>
-  .inner-wrap{
-    min-height: 100vh;
-  }
-  .info{
-    margin: 1em;
-    text-align: center;
-    color: #444;
-    font-size: 0.9em;
-  }
-  .main-section img{
-    margin: auto;
-    display: block;
-    /*max-width: 100%*/
-    width: 100%;
-  }
-  .full-page{
-    height: 100vh;
-    width: 100vw;
-    z-index: 9999;
-    position: fixed;
-    display: flex;
-    background-color: #0F6EA7;
-
-  }
-  .full-page cube-grid-spinner{
-    margin: auto
-  }
-  .hide{
-    opacity: 0;
-  }
-  .cube-grid-spinner>div{
-    background-color: white;
-  }
-  .loading.ng-enter{
-    -webkit-transition: opacity 0.3s;
-    -o-transition: opacity 0.3s;
-    transition: opacity 0.3s;
-    opacity: 0;
-  }
-  .loading.ng-enter.ng-enter-active{
-    opacity: 1;
-  }
-  .loading.ng-leave{
-    -webkit-transition: opacity 1s;
-    -o-transition: opacity 1s;
-    transition: opacity 1s;
-    opacity: 1;
-  }
-  .loading.ng-leave.ng-leave-active{
-    opacity: 0;
-  }
-  nav.nav{
-      overflow-x: scroll;
-      overflow-y: hidden;
-      white-space: nowrap;
-      -webkit-overflow-scrolling: touch;
-      min-width: 100%;
-      background: #0072B5;
-  }
-  nav.nav::-webkit-scrollbar {
-      display: none;
-  }
-  nav.nav ul{
-      margin: 0;
-      padding: 0;
-      height: 2em;
-      width: 100%;
-  }
-  nav.nav ul li{
-      text-align: center;
-      display: inline-block;
-      width: 25vw;
-      height: 2em;
-      line-height: 2em;
-      list-style: none;
-  }
-  nav.nav ul li a{
-      color:white;
-  }
-  </style>
-
   <body>
     <div class="full-page loading" ng-if="loading">
         <cube-grid-spinner></cube-grid-spinner>
@@ -121,18 +39,19 @@
     <div class="off-canvas-wrap">
         <div class="inner-wrap">
             <nav class="tab-bar">
-                <section class="left-small">
-                    <a class="left-off-canvas-toggle menu-icon" ><span></span></a>
+                <section class="left">
+                    <img src="/dist/logo.png" alt="">
+                </section>
+                <section class="right-small">
+                    <a class="right-off-canvas-toggle menu-icon"><span></span></a>
                 </section>
 
                 <section class="middle tab-bar-section">
                     <h1 class="center title">新闻中心</h1>
-
                 </section>
-
             </nav>
 
-            <aside class="left-off-canvas-menu" ng-controller="SideCtrl">
+            <aside class="right-off-canvas-menu" ng-controller="SideCtrl">
                 <ul class="off-canvas-list">
                     <li><label>新闻中心</label></li>
                     <li ng-repeat="col in columns"><a ng-href="{{col.link}}">{{col.name}}</a></li>
@@ -140,15 +59,7 @@
                 <div class="info">由 凝聚网络工作室 提供</div>
             </aside>
             <section class="main-section">
-                <nav class="nav">
-                    <ul ng-controller="MenuCtrl">
-                        <li ng-repeat="item in menus">
-                            <a ng-href="{{item.url}}">{{item.name}}</a>
-                        </li>
-                    </ul>
-                </nav>
                 <div ng-view>
-
                 </div>
             </section>
             <a class="exit-off-canvas"></a>

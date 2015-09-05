@@ -21,20 +21,21 @@ def runapp():
         "static_path": os.path.join(os.path.dirname(__file__), "static")
     }
     route = [
-        ("/api/p/(\d*)", views.News),
-        ("/api/index", views.Index),
+        (r"/api/p/(\d*)", views.News),
+        # (r"/api/column/(.*)", views.Column),
+        (r"/api/index", views.Index),
     ]
 
     if options.DEBUG:
         route.extend([
-            ("/bower_components/(.*)", tornado.web.StaticFileHandler, {'path': "bower_components/"}),
-            ("/(.*)", views.RedirectStaticFileHandler, {"path": 'static/index.html'})
+            (r"/bower_components/(.*)", tornado.web.StaticFileHandler, {'path': "bower_components/"}),
+            (r"/dist/(.*)", tornado.web.StaticFileHandler, {'path': "dist/dist/"}),
+            (r"/", views.RedirectStaticFileHandler, {"path": 'static/index.html'})
         ])
     else:
         route.extend([
-            ("/bower_components/(.*)", tornado.web.StaticFileHandler, {'path': "dist/"}),
-            ("/dist/(.*)", tornado.web.StaticFileHandler, {'path': "dist/dist/"}),
-            ("/(.*)", views.RedirectStaticFileHandler, {"path": 'dist/index.html'})
+            (r"/dist/(.*)", tornado.web.StaticFileHandler, {'path': "dist/dist/"}),
+            (r"/", views.RedirectStaticFileHandler, {"path": 'dist/index.html'})
         ])
         settings['static_path'] = os.path.join(os.path.dirname(__file__), "dist")
     application = tornado.web.Application(route, **settings)

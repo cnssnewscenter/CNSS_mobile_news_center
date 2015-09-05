@@ -1,0 +1,141 @@
+ul.div {
+  margin: 0;
+  padding: 0;
+}
+.columns li {
+  display: block;
+  padding: 0.5em;
+}
+.columns li img {
+  max-width: 3em;
+  max-height: 3em;
+}
+.inner-wrap {
+  min-height: 100vh;
+}
+.info {
+  margin: 1em;
+  text-align: center;
+  color: #444;
+  font-size: 0.9em;
+}
+.slick-list img {
+  margin: auto;
+  display: block;
+  /*max-width: 100%*/
+  width: 100%;
+}
+.full-page {
+  height: 100vh;
+  width: 100vw;
+  z-index: 9999;
+  position: fixed;
+  display: flex;
+  background-color: #0F6EA7;
+}
+.full-page cube-grid-spinner {
+  margin: auto;
+}
+.hide {
+  opacity: 0;
+}
+.cube-grid-spinner > div {
+  background-color: white;
+}
+.loading.ng-enter {
+  -webkit-transition: opacity 0.3s;
+  -o-transition: opacity 0.3s;
+  transition: opacity 0.3s;
+  opacity: 0;
+}
+.loading.ng-enter.ng-enter-active {
+  opacity: 1;
+}
+.loading.ng-leave {
+  -webkit-transition: opacity 1s;
+  -o-transition: opacity 1s;
+  transition: opacity 1s;
+  opacity: 1;
+}
+.loading.ng-leave.ng-leave-active {
+  opacity: 0;
+}
+nav.nav {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  min-width: 100%;
+  background: #064982;
+}
+nav.nav::-webkit-scrollbar {
+  display: none;
+}
+nav.nav ul {
+  margin: 0;
+  padding: 0;
+  height: 2em;
+  width: 100%;
+}
+nav.nav ul li {
+  text-align: center;
+  display: inline-block;
+  width: 25vw;
+  height: 2em;
+  line-height: 2em;
+  list-style: none;
+}
+nav.nav ul li a {
+  color: white;
+}
+.slick-slider {
+  margin-bottom: -30px;
+}
+.tab-bar {
+  background: #0067af;
+}
+.right-small {
+  border-left: solid 1px transparent;
+}
+.tab-bar .left img {
+  height: 24px;
+  margin-top: -3px;
+  padding-left: 9px;
+}
+.newslist .news {
+  display: block;
+  border-bottom: dotted 2px #c9c9c9;
+}
+.newslist .news:last-of-type {
+  border-bottom: none;
+}
+.newslist .news .title {
+  color: black;
+  font-size: 0.9em;
+  line-height: 1.4em;
+  height: 2.8em;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  white-space: pre-wrap;
+}
+.newslist .news .date {
+  color: #7a7a7a;
+  font-size: 0.8em;
+  text-align: right;
+}
+.newslist .news.big {
+  padding: 0.6rem 0.5rem;
+}
+.newslist .news.big .column {
+  padding-left: 0;
+  padding-right: 0;
+}
+.newslist .news.big img {
+  display: inline-block;
+  max-height: 3.6rem;
+  line-height: 3.3rem;
+  margin-right: 10px;
+}

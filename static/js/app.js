@@ -12,7 +12,6 @@ app.config(["$routeProvider", '$locationProvider', function($routeProvider, $loc
         templateUrl: "/static/templates/column.html"
     }).otherwise({
         controller: "NotFoundCtrl",
-        // templateUrl: "/static/template/404.html"
     })
 }])
 
@@ -34,6 +33,9 @@ app.factory('api', ['$http', function($http){
     api.index = function(id){
         return $http.get('/api/index')
     }
+    api.column = function(column){
+        return $http.get('/api/column/'+column)
+    }
     return api;
 }])
 
@@ -54,7 +56,7 @@ app.controller('IndexCtrl', ['api', '$scope', function(api, $scope){
     api.changeTitle('新闻中心')
     api.index().then(function(response){
         $scope.slides = response.data.top.slice(3)
-        console.log($scope.slides)
+        $scope.top = response.data.top
         api.loading_finish()
     })
 }])
@@ -70,7 +72,11 @@ app.controller('PassageCtrl', ['api', '$scope', '$routeParams', '$sce', function
 }])
 
 app.controller("ColumnCtrl", ["api", "$scope", "$routeParams", function(api, $scope, $routeParams){
-
+    api.column($routeParams.column).then(function(response){
+        $scope.items = response.data.data
+        console.log(response.data)
+    })
+    api.loading_finish()
 }])
 
 app.controller('NotFoundCtrl', ['$route', function($route){
@@ -80,7 +86,7 @@ app.controller('NotFoundCtrl', ['$route', function($route){
 app.controller("SideCtrl", ['$scope', function($scope){
     $scope.columns = [
         {name: "首页", link: "#/"},
-        {name: "焦点新闻", link: "#/top"}
+        {name: "焦点新闻", link: "#/column/top"},
     ]
 }])
 
