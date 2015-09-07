@@ -1,5 +1,7 @@
 certifi==2015.4.28
+cssselect==0.9.1
 hiredis==0.2.0
 lxml==3.4.4
+pyquery==1.2.9
 redis==2.10.3
 tornado==4.1
