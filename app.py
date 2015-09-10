@@ -24,6 +24,7 @@ def runapp():
         (r"/api/p/(\d*)", views.News),
         # (r"/api/column/(.*)", views.Column),
         (r"/api/index", views.Index),
+        (r"/api/cache_is_evil", views.CleanCache)
     ]
 
     if options.DEBUG:

@@ -26,7 +26,7 @@ def tostring(node):
 
 
 def convertUrl(url):
-    print(url)
+    logger.debug(url)
     if url.startswith("/") and url.split('.')[-1].lower() in ["jpg", "gif", "jpeg", "png"]:
         return "http://www.new1.uestc.edu.cn/" + url
     if "Category" in url:
@@ -56,24 +56,27 @@ def ParseIndexSubCategory(content):
 
 
 def ParsePost(content):
-    p = makeParser(content)
-    title = p("h1")[0].text()
-    content = p(".Degas_news_content:first")[0]
-    imgs = p(content).find('img')
-    author = p(p(content).find('.Degas_news_info span')).text()
-    author = re.sub(r"\s+", '', author.strip()).split('/')
-    for i in imgs:
-        if 'src' in i.attrib:
-            i.attrib['src'] = convertUrl(i.attrib['src'])
-    editor = [i.strip().replace('\u3000', ' ') for i in p(".Degas_news_content").next().text().split("/")]
-    content = tostring(content)
-    return {
-        "title": title,
-        "content": content,
-        "author": author,
-        "editor": editor
-    }
-
+    try:
+        p = makeParser(content)
+        title = p(".Degas_news_title").text()
+        content = p(".Degas_news_content:first")[0]
+        imgs = p(content).find('img')
+        author = p(p(content).find('.Degas_news_info span')).text()
+        author = re.sub(r"\s+", '', author.strip()).split('/')
+        for i in imgs:
+            if 'src' in i.attrib:
+                i.attrib['src'] = convertUrl(i.attrib['src'])
+        editor = [i.strip().replace('\u3000', ' ') for i in p(".Degas_news_content").next().text().split("/")]
+        content = tostring(content)
+        return {
+            "title": title,
+            "content": content,
+            "author": author,
+            "editor": editor
+        }
+    except Exception as e:
+        logger.error("Oops")
+        logger.exception(e)
 
 def ParseCategory(content):
     p = makeParser(content)

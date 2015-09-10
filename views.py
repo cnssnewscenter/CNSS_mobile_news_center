@@ -55,7 +55,7 @@ class Index(tornado.web.RequestHandler):
 
         subCategory = parser.ParseIndexSubCategory(content)
         general_link = yield [get_data(i[1], parser.ParsePost) for i in general]
-        general = [(general[i][0], general_link[i]) for i in range(general)]
+        general = [general[i]+(json.loads(general_link[i]),) for i in range(len(general))]
         return {
             "general": general,
             "subCategory": subCategory
@@ -86,3 +86,12 @@ class RedirectStaticFileHandler(tornado.web.StaticFileHandler):
     @coroutine
     def get(self, include_body=True):
         yield super(RedirectStaticFileHandler, self).get(self.filename)
+
+
+class CleanCache(tornado.web.RequestHandler):
+
+    def get(self):
+        source_ip = self.request.remote_ip
+        logger.warn("The redis is cleared by users: %s", source_ip)
+        fetcher.r.flushdb()
+        self.write("401 YOU ARE ON THE WRONG PAGE")
