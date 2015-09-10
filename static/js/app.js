@@ -122,11 +122,10 @@
 
     app.controller("MenuCtrl", ['$scope', function($scope){
         $scope.menus = [
-            {name:"链接一", link:'#'},
-            {name:"链接一", link:'#'},
-            {name:"链接一", link:'#'},
-            {name:"链接一", link:'#'},
-            {name:"链接一", link:'#'},
+            {name:"焦点新闻", link:'#/category/42'},
+            {name:"校园时讯", link:'#/category/50'},
+            {name:"合作交流", link:'#/category/45'},
+            {name:"成电人物", link:'#/category/48'},
         ]
     }])
 })()
