@@ -25,6 +25,12 @@ def get_data(url, handler):
     return ret
 
 
+def merge(x, y):
+    z = x.copy()
+    z.update(y)
+    return z
+
+
 class News(tornado.web.RequestHandler):
 
     """
@@ -46,16 +52,12 @@ class Index(tornado.web.RequestHandler):
     """
 
     @coroutine
-    def get_the_index_post(self, links):
-        return multi_future()
-
-    @coroutine
     def deal(self, content):
         general = parser.ParseIndexGeneral(content)
 
         subCategory = parser.ParseIndexSubCategory(content)
         general_link = yield [get_data(i[1], parser.ParsePost) for i in general]
-        general = [general[i]+(json.loads(general_link[i]),) for i in range(len(general))]
+        general = [merge(json.loads(general_link[i]), {"link": general[i][1]}) for i in range(len(general))]
         return {
             "general": general,
             "subCategory": subCategory

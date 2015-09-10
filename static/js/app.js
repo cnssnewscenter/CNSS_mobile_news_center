@@ -55,7 +55,14 @@ app.controller('IndexCtrl', ['api', '$scope', function(api, $scope){
     console.log("Index!")
     api.changeTitle('新闻中心')
     api.index().then(function(response){
-        $scope.slides = response.data.top.slice(3)
+        console.log(response.data)
+        $scope.slides = response.data.general.filter(function(x){
+            return x.img.length
+        }).map(function(x){
+            x.img = x.img[0]
+            return x
+        }).slice(5)
+        console.log($scope.slides)
         $scope.top = response.data.top
         api.loading_finish()
     })

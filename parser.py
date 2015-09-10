@@ -63,20 +63,24 @@ def ParsePost(content):
         imgs = p(content).find('img')
         author = p(p(content).find('.Degas_news_info span')).text()
         author = re.sub(r"\s+", '', author.strip()).split('/')
+        collectd = []
         for i in imgs:
             if 'src' in i.attrib:
                 i.attrib['src'] = convertUrl(i.attrib['src'])
+                collectd.append(i.attrib['src'])
         editor = [i.strip().replace('\u3000', ' ') for i in p(".Degas_news_content").next().text().split("/")]
         content = tostring(content)
         return {
             "title": title,
             "content": content,
             "author": author,
-            "editor": editor
+            "editor": editor,
+            "img": collectd
         }
     except Exception as e:
         logger.error("Oops")
         logger.exception(e)
+
 
 def ParseCategory(content):
     p = makeParser(content)
