@@ -19,7 +19,7 @@ def get_data(key):
     if caching:
         try:
             cached = r.get(key)
-            return cached
+            return cached.decode()
         except:
             logging.warn('Fail to connect to the redis cache server')
             caching = False

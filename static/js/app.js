@@ -85,6 +85,8 @@
 
         var q = $q.all([q1, q2]).then(function(){
             api.loading_finish()
+        }, function(){
+            alert('啊咧！载入失败了，刷新试试？')
         })
 
     }])

@@ -31,10 +31,10 @@
 <!-- Top news -->
 <div class="newslist">
     <a class="news big row" ng-repeat="i in top" href="{{i.herf}}">
-            <div class="small-3 column pic">
+            <div class="small-3 column pic {{i.img?'':'hide'}}">
                 <div class="pic-background" style="background-image:url('{{i.img}}')"></div>
             </div>
-            <div class="small-9 column">
+            <div class="column {{i.img?'small-9':'small-12'}}">
                 <div class="title">{{i.title}}</div>
                 <div class="date">{{i.date}}</div>
             </div>
