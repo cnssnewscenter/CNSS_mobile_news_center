@@ -1,5 +1,17 @@
 var app = angular.module('MobileNews', ['mm.foundation', 'slick', 'ngRoute', 'angular-loading-bar', 'angular-spinkit', 'ngAnimate'])
 
+function LinkTranslate(link){
+    if (/Category/.test(link)){
+        return "#/category/"+link.match(/\d+/)
+    }else if(/Document\.ArticlePage/.test(link)){
+        return "#/post/"+link.match(/\d+/)
+    }else{
+        console.warn("Unknow url", link)
+        return link
+    }
+}
+
+
 app.config(["$routeProvider", '$locationProvider', function($routeProvider, $locationProvider){
     $routeProvider.when("/", {
         controller: "IndexCtrl",
