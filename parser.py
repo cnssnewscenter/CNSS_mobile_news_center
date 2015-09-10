@@ -26,7 +26,7 @@ def tostring(node):
 
 
 def convertUrl(url):
-
+    print(url)
     if url.startswith("/") and url.split('.')[-1].lower() in ["jpg", "gif", "jpeg", "png"]:
         return "http://www.new1.uestc.edu.cn/" + url
     if "Category" in url:

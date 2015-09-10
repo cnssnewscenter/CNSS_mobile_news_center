@@ -1,7 +1,7 @@
 import tornado.web
 import fetcher
 import parser
-from tornado.gen import coroutine
+from tornado.gen import coroutine, maybe_future
 import tornado.gen
 import logging
 import json
@@ -13,13 +13,14 @@ logger = logging.getLogger("View")
 
 
 @coroutine
-def get_data(self, url, handler):
+def get_data(url, handler):
     key = parser.convertUrl(url)
     cached = yield fetcher.get_data(key)
     if cached:
         return cached
     result = yield fetcher.get_page(url)
-    ret = json.dumps(handler(result))
+    ret = yield maybe_future(handler(result))
+    ret = json.dumps(ret)
     yield fetcher.write_data(key, ret, options.CACHE_TIME)
     return ret
 
@@ -45,13 +46,16 @@ class Index(tornado.web.RequestHandler):
     """
 
     @coroutine
+    def get_the_index_post(self, links):
+        return multi_future()
+
+    @coroutine
     def deal(self, content):
         general = parser.ParseIndexGeneral(content)
 
         subCategory = parser.ParseIndexSubCategory(content)
-        for n, i in enumerate(general):
-            general[n] = yield get_data(i[1])
-
+        general_link = yield [get_data(i[1], parser.ParsePost) for i in general]
+        general = [(general[i][0], general_link[i]) for i in range(general)]
         return {
             "general": general,
             "subCategory": subCategory
@@ -60,7 +64,7 @@ class Index(tornado.web.RequestHandler):
     @coroutine
     def get(self):
         self.set_header("Content-type", 'application/json')
-        content = yield get_data("#/", self.deal)
+        content = yield get_data("http://www.uestc.edu.cn", self.deal)
         self.write(content)
 
 
