@@ -173,3 +173,7 @@ nav.nav ul li a {
   line-height: 3.3rem;
   margin-right: 10px;
 }
+.more.button {
+  margin: 10px 0;
+  background-color: #0067AF;
+}

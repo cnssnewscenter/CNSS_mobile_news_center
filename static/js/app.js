@@ -48,8 +48,9 @@
         api.index = function(id){
             return $http.get('/api/index')
         }
-        api.column = function(column){
-            return $http.get('/api/column/'+column)
+        api.column = function(column, page){
+            var url = page == undefined ? "/api/column/"+column: "/api/column/"+column + "?page="+page
+            return $http.get(url)
         }
         return api;
     }])
@@ -103,10 +104,16 @@
 
     app.controller("ColumnCtrl", ["api", "$scope", "$routeParams", function(api, $scope, $routeParams){
         api.column($routeParams.column).then(function(response){
-            $scope.items = response.data.data
-            console.log(response.data)
+            $scope.items = response.data
         })
         api.loading_finish()
+        $scope.page = 1
+        $scope.load = function(){
+            api.column($routeParams.column, $scope.page + 1).then(function(response){
+                $scope.items.push.apply($scope.items, response.data)
+                $scope.page += 1;
+            })
+        }
     }])
 
     app.controller('NotFoundCtrl', ['$route', function($route){

@@ -1,5 +1,17 @@
-<h2>{{passage.title}}</h2>
-<h3><small>{{passage.author | table}}</small></h3>
-<div class="content" ng-bind-html="passage.content">
+<div class="newslist">
+    <a class="news big row" ng-repeat="i in items" href="{{i.herf}}">
+            <div class="small-3 column pic {{i.img?'':'hide'}}">
+                <div class="pic-background" style="background-image:url('{{i.img}}')"></div>
+            </div>
+            <div class="column {{i.img?'small-9':'small-12'}}">
+                <div class="title">{{i.title}}</div>
+                <div class="date">{{i.date}}</div>
+            </div>
+        </a>
+    </a>
 </div>
-<h4><small>{{passage.editor | table}}</small></h4>
+<div class="row">
+    <div class="small-6 small-centered text-center columns">
+        <div ng-click="load()" class="button more">载入更多</div>
+    </div>
+</div>
