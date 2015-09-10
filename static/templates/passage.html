@@ -1,7 +1,10 @@
-<ul class="columns">
-  <li ng-repeat="item in items">
-    <img ng-src="{{item.img}}">
-    <h1>{{item.title}}</h1>
-    <p>{{item.intro}}</p>
-  </li>
-</ul>
+<h1 class="passage">{{passage.title}}</h1>
+<h3 class="passage" ng-if="passage.sub_title">{{passage.sub_title}}</h3>
+
+<div class="info">
+    <span ng-repeat="i in passage.authors">{{i}}</span>
+    <span>{{passage.date}}</span>
+</div>
+
+<div class="content" ng-bind-html="passage.content">
+</div>

@@ -22,7 +22,7 @@ def runapp():
     }
     route = [
         (r"/api/p/(\d*)", views.News),
-        # (r"/api/column/(.*)", views.Column),
+        (r"/api/column/(.*)", views.NewsCategory),
         (r"/api/index", views.Index),
         (r"/api/cache_is_evil", views.CleanCache)
     ]

@@ -1,6 +1,7 @@
 import tornado.web
 import fetcher
 import parser
+from parser import convertUrl
 from tornado.gen import coroutine, maybe_future
 import tornado.gen
 import logging
@@ -31,6 +32,22 @@ def merge(x, y):
     return z
 
 
+def makeUrl(type, **kwargs):
+
+    logger.debug("make url %s, %s", type, kwargs)
+
+    if "post" == type:
+        return "http://www.new1.uestc.edu.cn/?n=UestcNews.Front.Document.ArticlePage&Id={Id}".format_map(kwargs)
+    elif "category" == type:
+        kwargs['page'] = kwargs.get("page", "1")
+        return "http://www.new1.uestc.edu.cn/?n=UestcNews.Front.Category.Page&CatId={CatId}&page={page}".format_map(kwargs)
+    elif "index" == type:
+        return "http://www.uestc.edu.cn"
+    else:
+        logger.warn("unknown type")
+        raise NotImplemented
+
+
 class News(tornado.web.RequestHandler):
 
     """
@@ -40,7 +57,7 @@ class News(tornado.web.RequestHandler):
     @coroutine
     def get(self, pid):
         self.set_header("Content-type", 'application/json')
-        url = "http://www.new1.uestc.edu.cn/?n=UestcNews.Front.Document.ArticlePage&Id="+pid
+        url = makeUrl('post', Id=pid)
         content = yield get_data(url, parser.ParsePost)
         self.write(content)
 
@@ -48,7 +65,9 @@ class News(tornado.web.RequestHandler):
 class Index(tornado.web.RequestHandler):
 
     """
-    板块首页
+    首页
+    轮播图数据来自于 "焦点新闻"
+    下方新闻来自于首页的新闻汇总
     """
 
     @coroutine
@@ -57,25 +76,26 @@ class Index(tornado.web.RequestHandler):
 
         subCategory = parser.ParseIndexSubCategory(content)
         general_link = yield [get_data(i[1], parser.ParsePost) for i in general]
-        general = [merge(json.loads(general_link[i]), {"link": general[i][1]}) for i in range(len(general))]
+        general = [merge(json.loads(general_link[i]), {"link": convertUrl(general[i][1])}) for i in range(len(general))]
         return {
             "general": general,
-            "subCategory": subCategory
+            "subCategory": subCategory,
         }
 
     @coroutine
     def get(self):
         self.set_header("Content-type", 'application/json')
-        content = yield get_data("http://www.uestc.edu.cn", self.deal)
+        content = yield get_data(makeUrl("index"), self.deal)
         self.write(content)
 
 
 class NewsCategory(tornado.web.RequestHandler):
 
     @coroutine
-    def get(self):
+    def get(self, cid):
         self.set_header("Content-type", 'application/json')
-        content = yield get_data("http://www.new1.uestc.edu.cn/?n=UestcNews.Front.Category.Page&CatId=42", parser.ParseCategory)
+        page = self.get_argument('page', '1')
+        content = yield get_data(makeUrl('category', page=page, CatId=cid), parser.ParseCategory)
         self.write(content)
 
 

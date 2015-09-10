@@ -22,7 +22,7 @@
 </nav>
 <slick autoplay=true autoplay-speed=5000 speed=300 init-onload=true data='slides'>
     <div ng-repeat="slide in slides">
-        <a href="{{slide.pid}}">
+        <a href="{{slide.link}}">
             <img ng-src="{{slide.img}}" alt="">
             <div class="dest">{{slide.title}}</div>
         </a>
@@ -31,10 +31,10 @@
 <!-- Top news -->
 <div class="newslist">
     <a class="news big row" ng-repeat="i in top" href="{{i.herf}}">
-            <div class="small-4 column">
-                <img ng-src="{{i.img}}">
+            <div class="small-3 column pic">
+                <div class="pic-background" style="background-image:url('{{i.img}}')"></div>
             </div>
-            <div class="small-8 column">
+            <div class="small-9 column">
                 <div class="title">{{i.title}}</div>
                 <div class="date">{{i.date}}</div>
             </div>
