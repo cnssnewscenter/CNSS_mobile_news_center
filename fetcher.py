@@ -3,11 +3,8 @@ import redis
 from tornado.options import options
 import tornado.gen
 from tornado.log import logging
-from tornado.options import options
-
 
 r = redis.Redis()
-caching = True
 
 
 @tornado.gen.coroutine
@@ -15,28 +12,24 @@ def get_data(key):
     """
     return None or the data in the redis cache
     """
-    global caching
-    if caching:
-        try:
-            cached = r.get(key)
-            return cached.decode()
-        except:
-            logging.warn('Fail to connect to the redis cache server')
-            caching = False
-            return None
-    else:
+    global r
+    try:
+        cached = r.get(key)
+        return cached.decode() if cached else None
+    except Exception as e:
+        logging.exception(e)
+        logging.warn('Fail to connect to the redis cache server')
         return None
 
 
 @tornado.gen.coroutine
 def write_data(key, value, timeout):
-    global r, caching
-    if caching:
-        try:
-            r.setex(key, value, timeout)
-        except:
-            caching = False
-            logging.warn('Fail to connect to the redis cache server')
+    global r
+    try:
+        r.setex(key, value, timeout)
+    except Exception as e:
+        logging.exception(e)
+        logging.warn('Fail to connect to the redis cache server')
 
 
 @tornado.gen.coroutine

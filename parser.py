@@ -16,7 +16,8 @@ logger = logging.getLogger("parser")
 
 
 def makeParser(content, encoding="utf8"):
-    return pq(content.decode(encoding, "ignore"))
+    content = content.decode(encoding, "ignore") if isinstance(content, bytes) else str(content)
+    return pq(content)
 
 
 def tostring(node):
