@@ -8,6 +8,7 @@ import logging
 def config():
     define('CACHE_TIME', default=5 * 60, help="The cached time for every news, in seconds")
     define('DEBUG', default=True, help="The global debug control")
+    define("PORT", default=8000, help="PORT")
 
     if os.path.exists('config.py'):
         parse_config_file('config.py')
@@ -43,9 +44,11 @@ def runapp():
             (r"/dist/(.*)", tornado.web.StaticFileHandler, {'path': os.path.join(os.path.dirname(__file__), "dist")}),
             (r"/", views.RedirectStaticFileHandler, {"path": 'dist/index.html'})
         ])
-        
+    print(options)
     application = tornado.web.Application(route, **settings)
-    application.listen(8001, address="0.0.0.0")
+    application.listen(options.PORT, address="0.0.0.0")
+    print("listening at", options.PORT)
+    print("CACHE_TIME", options.CACHE_TIME)
     tornado.ioloop.IOLoop.instance().start()
 
 if __name__ == "__main__":

@@ -93,3 +93,5 @@ node_modules
 npm-debug.log
 
 bower_components/
+config.py
+sync.sh

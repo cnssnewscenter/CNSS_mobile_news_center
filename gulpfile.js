@@ -16,11 +16,12 @@ var option = {
     spare: true
 }
 
-gulp.task('script', ['inline_template'], function() {
-    var assets = useref.assets({searchPath: '.', additionalStreams: [gulp.src('dist/template.js')]});
+gulp.task('script',function() {
+    var assets = useref.assets({searchPath: '.'});
     return gulp.src("static/index.html")
         .pipe(assets)
         .pipe(gulpif("*.css", minifyCss()))
+        .pipe(gulpif(/.*\/app\.js/, uglify()))
         //.pipe(gulpif("*.js", uglify()))
         //.pipe(rev())
         .pipe(debug({title: "combined"}))
@@ -36,6 +37,11 @@ gulp.task('script', ['inline_template'], function() {
         //.pipe(gulpif("*.html",entities('decode')))
         .pipe(gulp.dest("./dist"))
 });
+gulp.task('append', ['script', 'inline_template'], function(){
+    return  gulp.src(['dist/app.js', 'dist/template.js'])
+        .pipe(concat("app.js"))
+        .pipe(gulp.dest("dist"))
+})
 gulp.task('copy', function(){
     return gulp.src("static/logo.png")
         .pipe(gulp.dest('dist/'))
@@ -44,6 +50,7 @@ gulp.task("inline_template", function(){
     return gulp.src("static/templates/*.html")
         .pipe(angularTemplates({module: "MobileNews", basePath: "/static/templates/"}))
         .pipe(concat("template.js"))
+        .pipe(uglify())
         .pipe(gulp.dest("dist/"))
 })
-gulp.task("default", ["script","inline_template", "copy"])
+gulp.task("default", ["script","inline_template", "copy", 'append'])
