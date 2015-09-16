@@ -21,7 +21,7 @@ gulp.task('script', function() {
     return gulp.src("static/index.html")
         .pipe(assets)
         .pipe(gulpif("*.css", minifyCss()))
-        .pipe(gulpif("*.js", uglify()))
+        //.pipe(gulpif("*.js", uglify()))
         //.pipe(rev())
         .pipe(debug({title: "combined"}))
         .pipe(rename(function(f){
@@ -42,7 +42,7 @@ gulp.task('copy', function(){
 })
 gulp.task("inline_template", function(){
     return gulp.src("static/templates/*.html")
-        .pipe(angularTemplates({module: "MobileNews"}))
+        .pipe(angularTemplates({module: "MobileNews", basePath: "/static/templates/"}))
         .pipe(concat("template.js"))
         .pipe(gulp.dest("dist/"))
 })
