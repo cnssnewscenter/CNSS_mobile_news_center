@@ -32,13 +32,14 @@ def runapp():
         print('Entering debugging mode')
         route.extend([
             (r"/bower_components/(.*)", tornado.web.StaticFileHandler, {'path': "bower_components/"}),
-            (r"/dist/(.*)", tornado.web.StaticFileHandler, {'path': "dist/dist/"}),
+            # (r"/dist/(.*)", tornado.web.StaticFileHandler, {'path': "dist/dist/"}),
             (r"/", views.RedirectStaticFileHandler, {"path": 'static/index.html'})
         ])
         logging.basicConfig(level=0)
     else:
         route.extend([
-            (r"/dist/(.*)", tornado.web.StaticFileHandler, {'path': "dist/dist/"}),
+            # (r"/bower_components/(.*)", tornado.web.StaticFileHandler, {'path': "bower_components/"}),
+            (r"/dist/(.*)", tornado.web.StaticFileHandler, {'path': os.path.join(os.path.dirname(__file__), "dist")}),
             (r"/", views.RedirectStaticFileHandler, {"path": 'dist/index.html'})
         ])
         settings['static_path'] = os.path.join(os.path.dirname(__file__), "dist")

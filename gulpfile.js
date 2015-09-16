@@ -5,14 +5,13 @@ var gulp = require("gulp"),
     minifyCss = require('gulp-minify-css'),
     rev = require("gulp-rev"),
     revReplace = require("gulp-rev-replace"),
-    minifyInline = require('gulp-minify-inline'),
     debug = require("gulp-debug"),
-    entities = require("gulp-html-entities"),
-    minifyHTML = require('gulp-minify-html');
-
+    rename = require("gulp-rename")
+    concat = require('gulp-concat'),
+    angularTemplates = require('gulp-angular-templates');
+ 
 var option = {
     empty: true,
-    // conditionals: false,
     quotes: true,
     spare: true
 }
@@ -21,24 +20,30 @@ gulp.task('script', function() {
     var assets = useref.assets({searchPath: '.'});
     return gulp.src("static/index.html")
         .pipe(assets)
-        // .pipe(gulpif("*.js", uglify()))
         .pipe(gulpif("*.css", minifyCss()))
-        .pipe(rev())
+        .pipe(gulpif("*.js", uglify()))
+        //.pipe(rev())
         .pipe(debug({title: "combined"}))
+        .pipe(rename(function(f){
+            f.dirname = ""
+        }))
         .pipe(assets.restore())
         .pipe(useref())
         .pipe(debug({title: "Changed"}))
-        .pipe(revReplace())
-        .pipe(gulpif("*.html",minifyInline()))
-        .pipe(gulpif("*.html",minifyHTML(option)))
-        .pipe(gulpif("*.html",entities('decode')))
+        //.pipe(revReplace())
+        //.pipe(gulpif("*.html",minifyInline()))
+        //.pipe(gulpif("*.html",minifyHTML(option)))
+        //.pipe(gulpif("*.html",entities('decode')))
         .pipe(gulp.dest("./dist"))
 });
+gulp.task('copy', function(){
+    return gulp.src("static/logo.png")
+        .pipe(gulp.dest('dist/'))
+})
 gulp.task("inline_template", function(){
     return gulp.src("static/templates/*.html")
-        .pipe(minifyInline())
-        .pipe(entities('decode'))
-        .pipe(minifyHTML(option))
-        .pipe(gulp.dest("dist/templates/"))
+        .pipe(angularTemplates({module: "MobileNews"}))
+        .pipe(concat("template.js"))
+        .pipe(gulp.dest("dist/"))
 })
-gulp.task("default", ["script","inline_template"])
+gulp.task("default", ["script","inline_template", "copy"])

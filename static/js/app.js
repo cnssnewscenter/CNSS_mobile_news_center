@@ -1,17 +1,6 @@
 (function(){
     var app = angular.module('MobileNews', ['mm.foundation', 'slick', 'ngRoute', 'angular-loading-bar', 'angular-spinkit', 'ngAnimate'])
 
-    function LinkTranslate(link){
-        if (/Category/.test(link)){
-            return "#/category/"+link.match(/\d+/)
-        }else if(/Document\.ArticlePage/.test(link)){
-            return "#/post/"+link.match(/\d+/)
-        }else{
-            console.warn("Unknow url", link)
-            return link
-        }
-    }
-
     var CATEGORYS = {
         focus: 42,
     }
@@ -42,15 +31,16 @@
 
     app.factory('api', ['$http', function($http){
         var api = {};
+        var prefix = ""
         api.passage = function(id){
-            return $http.get("/api/p/"+ id)
+            return $http.get(prefix+"/api/p/"+ id)
         }
         api.index = function(id){
-            return $http.get('/api/index')
+            return $http.get(prefix+'/api/index')
         }
         api.column = function(column, page){
-            var url = page == undefined ? "/api/column/"+column: "/api/column/"+column + "?page="+page
-            return $http.get(url)
+            var url = page == undefined ? "/api/column/"+column : "/api/column/" + column + "?page="+page
+            return $http.get(prefix+url)
         }
         return api;
     }])
