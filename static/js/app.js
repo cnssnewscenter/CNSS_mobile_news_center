@@ -15,8 +15,12 @@
         }).when("/category/:column",{
             controller: "ColumnCtrl",
             templateUrl: "/static/templates/column.html"
+        }).when('/category/annoucement', {
+            controller: "annoucementCtrl",
+            templateUrl: "/static/templates/annoucement.html"
         }).otherwise({
             controller: "NotFoundCtrl",
+            template: "您的页面没有找到……"
         })
     }])
 
@@ -104,8 +108,12 @@
 
     app.controller("SideCtrl", ['$scope', function($scope){
         $scope.columns = [
-            {name: "首页", link: "#/"},
-            {name: "焦点新闻", link: "#/column/top"},
+            {name:"焦点新闻", link:'#/category/42'},
+            {name:"校园时讯", link:'#/category/50'},
+            {name:"教育教学", link:"#/category/43"},
+            {name:"科研科学", link:"#/category/44"},
+            {name:"合作交流", link:'#/category/45'},
+            {name:"公告", link:'#/category/annoucement'},
         ]
     }])
 
@@ -113,8 +121,10 @@
         $scope.menus = [
             {name:"焦点新闻", link:'#/category/42'},
             {name:"校园时讯", link:'#/category/50'},
+            {name:"教育教学", link:"#/category/43"},
+            {name:"科研科学", link:"#/category/44"},
             {name:"合作交流", link:'#/category/45'},
-            {name:"成电人物", link:'#/category/48'},
+            {name:"公告", link:'#/category/annoucement'},
         ]
     }])
 })()

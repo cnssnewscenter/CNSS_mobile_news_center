@@ -29,6 +29,8 @@ def tostring(node):
 
 def convertUrl(url):
     logger.debug(url)
+    if not url:
+        return None
     if "http://www.new1.uestc.edu.cn/" == url:
         return "index_2"
     if url.startswith("/") and url.split('.')[-1].lower() in ["jpg", "gif", "jpeg", "png"]:

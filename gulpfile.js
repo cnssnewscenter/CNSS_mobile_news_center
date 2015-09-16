@@ -16,8 +16,8 @@ var option = {
     spare: true
 }
 
-gulp.task('script', function() {
-    var assets = useref.assets({searchPath: '.'});
+gulp.task('script', ['inline_template'], function() {
+    var assets = useref.assets({searchPath: '.', additionalStreams: [gulp.src('dist/template.js')]});
     return gulp.src("static/index.html")
         .pipe(assets)
         .pipe(gulpif("*.css", minifyCss()))

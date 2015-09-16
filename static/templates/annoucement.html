@@ -1,0 +1,20 @@
+<div class="_annoucement" ng-repeat="type, items in annoucement">
+    <h2>{{type}}</h2>
+    <div class="newslist">
+        <a class="news big row" ng-repeat="i in items" href="{{i.herf}}">
+                <div class="small-3 column pic {{i.img?'':'hide'}}">
+                    <div class="pic-background" style="background-image:url('{{i.img}}')"></div>
+                </div>
+                <div class="column {{i.img?'small-9':'small-12'}}">
+                    <div class="title">{{i.title}}</div>
+                    <div class="date">{{i.date}}</div>
+                </div>
+            </a>
+        </a>
+    </div>
+    <div class="row">
+        <div class="small-6 small-centered text-center columns">
+            <div ng-click="load()" class="button more">载入更多</div>
+        </div>
+    </div>
+</div>
