@@ -29,6 +29,8 @@ def tostring(node):
 
 def convertUrl(url):
     logger.debug(url)
+    if "http://www.new1.uestc.edu.cn/" == url:
+        return "index_2"
     if url.startswith("/") and url.split('.')[-1].lower() in ["jpg", "gif", "jpeg", "png"]:
         return "http://www.new1.uestc.edu.cn" + url
     # try to parse
@@ -53,14 +55,14 @@ def ParseIndexGeneral(content):
     return [(i.text_content().strip(), i.attrib['href']) for i in index(".news-left .block-content a")]
 
 
-def ParseIndexSubCategory(content):
-    index = makeParser(content)
-    # 学术讲座、文化活动、通知公告
-    return {
-        "学术讲座": [(i.text_content().strip(), i.attrib['href']) for i in index(".NewsTypeScholarship a")],
-        "文化活动": [(i.text_content().strip(), i.attrib['href']) for i in index(".NewsTypeHumanities a")],
-        "通知公告": [(i.text_content().strip(), i.attrib['href']) for i in index(".NewsTypeNotice a")]
-    }
+# def ParseIndexSubCategory(content):
+#     index = makeParser(content)
+#     # 学术讲座、文化活动、通知公告
+#     return {
+#         "学术讲座": [(i.text_content().strip(), i.attrib['href']) for i in index(".NewsTypeScholarship a")],
+#         "文化活动": [(i.text_content().strip(), i.attrib['href']) for i in index(".NewsTypeHumanities a")],
+#         "通知公告": [(i.text_content().strip(), i.attrib['href']) for i in index(".NewsTypeNotice a")]
+#     }
 
 
 def ParsePost(content):

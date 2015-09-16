@@ -4,6 +4,7 @@ import parser
 from parser import convertUrl
 from tornado.gen import coroutine, maybe_future
 import tornado.gen
+import tornado.httpclient
 import logging
 import json
 from tornado.options import options
@@ -11,14 +12,18 @@ import os
 
 
 logger = logging.getLogger("View")
+if options.DEBUG:
+    logger.setLevel(logging.DEBUG)
 
 
 @coroutine
 def get_data(url, handler):
     key = parser.convertUrl(url)
-    # cached = yield fetcher.get_data(key)
-    # if cached:
-        # return cached
+    if not options.DEBUG:
+        cached = yield fetcher.get_data(key)
+        if cached:
+            return cached
+
     result = yield fetcher.get_page(url)
     ret = yield maybe_future(handler(result))
     ret = json.dumps(ret)
@@ -46,6 +51,24 @@ def makeUrl(type, **kwargs):
     else:
         logger.warn("unknown type")
         raise NotImplemented
+
+
+class BaseHandler(tornado.web.RequestHandler):
+
+    def _handle_request_exception(self, e):
+        if isinstance(e, tornado.httpclient.HTTPError):
+            if self._finished:
+                return
+            else:
+                self.clear()
+                self.write_error(502, json.dumps({
+                    "err": "502",
+                    "msg": "请求太快啦！",
+                    "raw_msg": str(e)
+                }))
+                logging.error("Fail to task to upstream")
+        else:
+            super(BaseHandler, self)._handle_request_exception(e)
 
 
 class News(tornado.web.RequestHandler):
@@ -80,7 +103,6 @@ class Index(tornado.web.RequestHandler):
     def get(self):
         self.set_header("Content-type", 'application/json')
         content = yield [get_data(makeUrl("index"), self.deal), get_data("http://www.new1.uestc.edu.cn/", parser.ParseSlider)]
-        print(content)
         content = {
             "general": json.loads(content[0]),
             "slide": json.loads(content[1]),
@@ -115,4 +137,4 @@ class CleanCache(tornado.web.RequestHandler):
         source_ip = self.request.remote_ip
         logger.warn("The redis is cleared by users: %s", source_ip)
         fetcher.r.flushdb()
-        self.write("401 YOU ARE ON THE WRONG PAGE")
+        self.write("缓存已经清空")

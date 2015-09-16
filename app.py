@@ -2,6 +2,7 @@ import tornado.ioloop
 import tornado.web
 from tornado.options import define, options, parse_config_file
 import os
+import logging
 
 
 def config():
@@ -28,11 +29,13 @@ def runapp():
     ]
 
     if options.DEBUG:
+        print('Entering debugging mode')
         route.extend([
             (r"/bower_components/(.*)", tornado.web.StaticFileHandler, {'path': "bower_components/"}),
             (r"/dist/(.*)", tornado.web.StaticFileHandler, {'path': "dist/dist/"}),
             (r"/", views.RedirectStaticFileHandler, {"path": 'static/index.html'})
         ])
+        logging.basicConfig(level=0)
     else:
         route.extend([
             (r"/dist/(.*)", tornado.web.StaticFileHandler, {'path': "dist/dist/"}),

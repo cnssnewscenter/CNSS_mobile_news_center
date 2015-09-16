@@ -70,25 +70,32 @@
     app.controller('IndexCtrl', ['api', '$scope', '$q', function(api, $scope, $q){
         console.log("Index!")
         api.changeTitle('新闻中心')
-
-        var q1 = api.index().then(function(response){
+        api.index().then(function(response){
             console.log(response.data)
-            $scope.top = response.data.general.map(function(x){
-                x.img = x.img.length ? x.img[0] : undefined;
-                return x
-            }).slice(5)
-        })
-
-        var q2 = api.column(CATEGORYS.focus).then(function(response){
-            console.log(response.data)
-            $scope.slides = response.data.slice(5)
-        })
-
-        var q = $q.all([q1, q2]).then(function(){
-            api.loading_finish()
+            $scope.top = response.data.general;
+            $scope.slides = response.data.slides;
+            api.loading_finsih()
         }, function(){
-            alert('啊咧！载入失败了，刷新试试？')
+            alert("载入失败了，刷新试试？")
         })
+        // var q1 = api.index().then(function(response){
+        //     console.log(response.data)
+        //     $scope.top = response.data.general.map(function(x){
+        //         x.img = x.img.length ? x.img[0] : undefined;
+        //         return x
+        //     }).slice(5)
+        // })
+
+        // var q2 = api.column(CATEGORYS.focus).then(function(response){
+        //     console.log(response.data)
+        //     $scope.slides = response.data.slice(5)
+        // })
+
+        // var q = $q.all([q1, q2]).then(function(){
+        //     api.loading_finish()
+        // }, function(){
+        //     alert('啊咧！载入失败了，刷新试试？')
+        // })
 
     }])
 

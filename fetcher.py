@@ -4,8 +4,10 @@ from tornado.options import options
 import tornado.gen
 from tornado.log import logging
 
-r = redis.Redis()
 
+r = redis.Redis()
+logger = logging.getLogger('fetcher')
+logger.setLevel(logging.DEBUG)
 
 @tornado.gen.coroutine
 def get_data(key):
@@ -38,10 +40,16 @@ def get_page(url):
     Cache enabled page fetching
     """
     cached = yield get_data(url)
-    if cached:
+
+    if cached and cached != "[]":
+        # logging.info('CACHED %s', url)
         return cached
     client = tornado.httpclient.AsyncHTTPClient()
-    result = yield client.fetch(url)
+    result = yield client.fetch(url, headers={
+        "User-Agent": "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36"
+    })
+
     if 300 >= result.code >= 200:
         yield write_data(url, result.body, options.CACHE_TIME)
+    logger.debug("fetch %s, %d", url, result.code)
     return result.body
