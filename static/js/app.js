@@ -12,12 +12,12 @@
         }).when("/post/:id", {
             controller: "PassageCtrl",
             templateUrl: "/static/templates/passage.html"
-        }).when("/category/:column",{
-            controller: "ColumnCtrl",
-            templateUrl: "/static/templates/column.html"
         }).when('/category/annoucement', {
             controller: "annoucementCtrl",
             templateUrl: "/static/templates/annoucement.html"
+        }).when("/category/:column",{
+            controller: "ColumnCtrl",
+            templateUrl: "/static/templates/column.html"
         }).otherwise({
             controller: "NotFoundCtrl",
             template: "您的页面没有找到……"
@@ -126,5 +126,24 @@
             {name:"合作交流", link:'#/category/45'},
             {name:"公告", link:'#/category/annoucement'},
         ]
+    }])
+
+    app.controller('annoucementCtrl', ['api', '$scope', '$q', function(api, $scope, $q){
+        
+        
+        $scope.data = {}
+        var wait = [["学术",66], ["文化",67], ["公告",68]].map(function(data){
+            var defer = $q.defer()
+            api.column(data[1]).then(function(response){
+                console.log(response.data)
+                $scope.data[data[0]] = response.data
+                defer.resolve()
+            })
+            return defer
+        })
+        $q.all($scope.data).then(function(){
+            api.loading_finish()
+        })
+
     }])
 })()

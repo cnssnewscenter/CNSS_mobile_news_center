@@ -1,4 +1,4 @@
-<div class="_annoucement" ng-repeat="type, items in annoucement">
+<div class="_annoucement" ng-repeat="(type, items) in data">
     <h2>{{type}}</h2>
     <div class="newslist">
         <a class="news big row" ng-repeat="i in items" href="{{i.herf}}">
@@ -11,10 +11,5 @@
                 </div>
             </a>
         </a>
-    </div>
-    <div class="row">
-        <div class="small-6 small-centered text-center columns">
-            <div ng-click="load()" class="button more">载入更多</div>
-        </div>
     </div>
 </div>
