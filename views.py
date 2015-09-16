@@ -16,9 +16,9 @@ logger = logging.getLogger("View")
 @coroutine
 def get_data(url, handler):
     key = parser.convertUrl(url)
-    cached = yield fetcher.get_data(key)
-    if cached:
-        return cached
+    # cached = yield fetcher.get_data(key)
+    # if cached:
+        # return cached
     result = yield fetcher.get_page(url)
     ret = yield maybe_future(handler(result))
     ret = json.dumps(ret)
@@ -66,27 +66,26 @@ class Index(tornado.web.RequestHandler):
 
     """
     首页
-    轮播图数据来自于 "焦点新闻"
+    轮播图数据来自于新闻中心首页
     下方新闻来自于首页的新闻汇总
     """
 
     @coroutine
     def deal(self, content):
         general = parser.ParseIndexGeneral(content)
-
-        subCategory = parser.ParseIndexSubCategory(content)
         general_link = yield [get_data(i[1], parser.ParsePost) for i in general]
-        general = [merge(json.loads(general_link[i]), {"link": convertUrl(general[i][1])}) for i in range(len(general))]
-        return {
-            "general": general,
-            "subCategory": subCategory,
-        }
+        return [merge(json.loads(general_link[i]), {"link": convertUrl(general[i][1])}) for i in range(len(general))]
 
     @coroutine
     def get(self):
         self.set_header("Content-type", 'application/json')
-        content = yield get_data(makeUrl("index"), self.deal)
-        self.write(content)
+        content = yield [get_data(makeUrl("index"), self.deal), get_data("http://www.new1.uestc.edu.cn/", parser.ParseSlider)]
+        print(content)
+        content = {
+            "general": json.loads(content[0]),
+            "slide": json.loads(content[1]),
+        }
+        self.write(json.dumps(content))
 
 
 class NewsCategory(tornado.web.RequestHandler):

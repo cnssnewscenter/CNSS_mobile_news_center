@@ -92,11 +92,13 @@ def ParsePost(content):
         logger.error("Oops")
         logger.exception(e)
 
+
 def strip_text(e):
     if e is not None:
         return e.text().strip()
     else:
         return ""
+
 
 def ParseCategory(content):
     p = makeParser(content)
@@ -111,4 +113,17 @@ def ParseCategory(content):
                 'intro': strip_text(i.find('.desc')),
                 "img": convertUrl(i.find('img').attr('src'))
             })
+    return ret
+
+
+def ParseSlider(content):
+    p = makeParser(content)
+    ret = []
+    for i in p('#slide_list li'):
+        i = p(i)
+        ret.append({
+            "title": i.find('h2').text().strip(),
+            "img": convertUrl(i.find('img').attr('src')),
+            "link": convertUrl(i.find('a').attr("href"))
+        })
     return ret
