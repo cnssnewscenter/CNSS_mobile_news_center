@@ -1,7 +1,7 @@
 <div class="_annoucement" ng-repeat="(type, items) in data">
     <h2>{{type}}</h2>
     <div class="newslist">
-        <a class="news big row" ng-repeat="i in items" href="{{i.herf}}">
+        <a class="news big row" ng-repeat="i in items" href="{{i.link}}">
                 <div class="small-3 column pic {{i.img?'':'hide'}}">
                     <div class="pic-background" style="background-image:url('{{i.img}}')"></div>
                 </div>

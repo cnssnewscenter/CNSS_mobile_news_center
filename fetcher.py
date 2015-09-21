@@ -39,24 +39,21 @@ def get_page(url):
     """
     Cache enabled page fetching
     """
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36"
+    }
+
+    if "new1.uestc.edu.cn" in url:
+        url = url.replace("www.new1.uestc.edu.cn", "202.115.22.251")
+        headers['Hosts'] = "www.new1.uestc.edu.cn"
+
     cached = yield get_data(url)
 
     if cached and cached != "[]":
         # logging.info('CACHED %s', url)
         return cached
     client = tornado.httpclient.AsyncHTTPClient()
-    if "new1.uestc.edu.cn" in url:
-
-        url = url.replace("www.new1.uestc.edu.cn", "202.115.22.251")
-        result = yield client.fetch(url, headers={
-            "User-Agent": "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36",
-            "Hosts": "www.new1.uestc.edu.cn"
-        })
-    else:
-        result = yield client.fetch(url, headers={
-            "User-Agent": "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36"
-        })
-
+    result = yield client.fetch(url, headers=headers)
     if 300 >= result.code >= 200:
         yield write_data(url, result.body, options.CACHE_TIME)
     logger.debug("fetch %s, %d", url, result.code)
