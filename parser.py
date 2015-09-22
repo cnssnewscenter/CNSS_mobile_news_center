@@ -27,7 +27,7 @@ def tostring(node):
     return cleaner.clean_html(html.tostring(node, method="html", encoding="utf8").decode()).strip()
 
 
-def convertUrl(url):
+def convertUrl(url, strict=False):
     logger.debug(url)
     if not url:
         return None
@@ -47,8 +47,9 @@ def convertUrl(url):
 
     if "www.uestc.edu.cn" == u.netloc and u.path in ["", '/']:
         return "#/"
-
     logger.warn("unrecognized url found: %s", url)
+    if strict:
+        return None
     return url
 
 

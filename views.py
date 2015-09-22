@@ -97,7 +97,14 @@ class Index(tornado.web.RequestHandler):
     def deal(self, content):
         general = parser.ParseIndexGeneral(content)
         general_link = yield [get_data(i[1], parser.ParsePost) for i in general]
-        return [merge(json.loads(general_link[i]), {"link": convertUrl(general[i][1])}) for i in range(len(general))]
+        ret = []
+        for i in range(len(general)):
+            link = convertUrl(general[i][1], strict=True)
+            if link:
+                data = json.loads(general_link[i])
+                data['link'] = link
+                ret.append(data)
+        return ret
 
     @coroutine
     def get(self):
