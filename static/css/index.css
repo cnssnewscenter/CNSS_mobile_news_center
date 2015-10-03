@@ -110,6 +110,17 @@ nav.nav {
   min-width: 100%;
   background: #064982;
 }
+nav.nav::before {
+  content: " ";
+  display: block;
+  height: 32px;
+  width: 12.5%;
+  position: absolute;
+  right: 0;
+  z-index: 100;
+  pointer-events: none;
+  background-image: linear-gradient(90deg, rgba(6, 73, 130, 0), #064982);
+}
 nav.nav::-webkit-scrollbar {
   display: none;
 }
