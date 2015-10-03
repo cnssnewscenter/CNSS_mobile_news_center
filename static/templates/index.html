@@ -12,6 +12,15 @@
         white-space:nowrap;
         padding-left: 0.4em;
     }
+    h2{
+        font-size: 1.1em;
+        color: #0067af;
+        margin-top: 0;
+        padding: 10px;
+        border-bottom: solid 2px #aaa;
+        border-top: solid 2px #0067af;
+        background-color: white;
+    }
 </style>
 <nav class="nav">
     <ul ng-controller="MenuCtrl">
@@ -33,6 +42,7 @@
 </slick>
 <!-- Top news -->
 <div class="newslist">
+    <h2>信息公告</h2>
     <a class="news big row" ng-repeat="i in top" href="{{i.link}}">
             <div class="small-3 column pic {{i.img?'':'hide'}}">
                 <div class="pic-background" style="background-image:url('{{i.img}}')"></div>
