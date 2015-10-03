@@ -131,20 +131,27 @@
 
     app.controller('annoucementCtrl', ['api', '$scope', '$q', function(api, $scope, $q){
 
+        $scope.types = [{name:"学术", id:66}, {name:"文化",id:67}, {name:"公告",id:68}]
 
-        $scope.data = {}
-        var wait = [["学术",66], ["文化",67], ["公告",68]].map(function(data){
-            var defer = $q.defer()
-            api.column(data[1]).then(function(response){
+        $scope.switch = function(id){
+            $scope.id = id
+            $scope.page = 1
+            api.column(id).then(function(response){
                 console.log(response.data)
-                $scope.data[data[0]] = response.data
-                defer.resolve()
+                $scope.lists = response.data
+                api.loading_finish()
             })
-            return defer
-        })
-        $q.all($scope.data).then(function(){
-            api.loading_finish()
-        })
+        }
 
+        $scope.load = function(){
+            $scope.page += 1;
+            api.column($scope.id, $scope.page).then(function(response){
+                $scope.lists.push.apply($scope.lists, response.data)
+                api.loading_finish()
+            })
+        }
+        setTimeout(function(){
+            $(".icon-bar a:first").click()
+        })
     }])
 })()

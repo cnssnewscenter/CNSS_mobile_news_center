@@ -1,7 +1,9 @@
-<div class="_annoucement" ng-repeat="(type, items) in data">
-    <h2>{{type}}</h2>
+<div class="_annoucement">
+    <div class="primary icon-bar three-up">
+        <a  ng-click="switch(item.id)" ng-repeat="item in types">{{item.name}}</a>
+    </div>
     <div class="newslist">
-        <a class="news big row" ng-repeat="i in items" href="{{i.link}}">
+        <a class="news big row" ng-repeat="i in lists" href="{{i.link}}">
                 <div class="small-3 column pic {{i.img?'':'hide'}}">
                     <div class="pic-background" style="background-image:url('{{i.img}}')"></div>
                 </div>
@@ -11,5 +13,10 @@
                 </div>
             </a>
         </a>
+    </div>
+    <div class="row">
+        <div class="small-6 small-centered text-center columns">
+            <div ng-click="load()" class="button more">载入更多</div>
+        </div>
     </div>
 </div>

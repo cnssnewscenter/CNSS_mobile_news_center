@@ -216,16 +216,19 @@ nav.nav ul li a {
 .footer a {
   color: white;
 }
-._annoucement:first-of-type h2 {
-  margin-top: 0;
+._annoucement .icon-bar {
+  background: #064982;
+  height: 32px;
 }
-._annoucement h2 {
-  font-size: 1.1em;
-  color: #0067af;
-  padding: 10px;
-  border-bottom: solid 2px #aaa;
-  border-top: solid 2px #0067af;
-  background-color: white;
+._annoucement .icon-bar a {
+  height: 32px;
+  padding: 0;
+  line-height: 32px;
+  color: white;
+}
+._annoucement .icon-bar a:visited,
+._annoucement .icon-bar a:focus {
+  color: white;
 }
 body {
   background-color: #f7f7f7;
