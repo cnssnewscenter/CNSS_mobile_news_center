@@ -36,7 +36,8 @@
 
     app.factory('api', ['$http', function($http){
         var api = {};
-        var prefix = "/mobile"
+        var prefix = "/mobile/"
+        // var prefix = ""
         api.passage = function(id){
             return $http.get(prefix+"/api/p/"+ id)
         }
@@ -113,7 +114,7 @@
             {name:"教育教学", link:"#/category/43"},
             {name:"科研科学", link:"#/category/44"},
             {name:"合作交流", link:'#/category/45'},
-            {name:"公告", link:'#/category/annoucement'},
+            {name:"通知公告", link:'#/category/annoucement'},
         ]
     }])
 
@@ -124,13 +125,13 @@
             {name:"教育教学", link:"#/category/43"},
             {name:"科研科学", link:"#/category/44"},
             {name:"合作交流", link:'#/category/45'},
-            {name:"公告", link:'#/category/annoucement'},
+            {name:"通知公告", link:'#/category/annoucement'},
         ]
     }])
 
     app.controller('annoucementCtrl', ['api', '$scope', '$q', function(api, $scope, $q){
-        
-        
+
+
         $scope.data = {}
         var wait = [["学术",66], ["文化",67], ["公告",68]].map(function(data){
             var defer = $q.defer()
