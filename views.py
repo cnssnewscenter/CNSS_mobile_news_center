@@ -96,7 +96,6 @@ class Index(tornado.web.RequestHandler):
     @coroutine
     def deal(self, content):
         general = parser.ParseIndexGeneral(content)
-        print(general)
         news = yield [get_data(i[1], parser.ParsePost) for i in general['news']]
         info = yield [get_data(i[1], parser.ParsePost) for i in general['info']]
         ret = {
