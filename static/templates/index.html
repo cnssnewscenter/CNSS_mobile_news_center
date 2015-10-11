@@ -42,8 +42,7 @@
 </slick>
 <!-- Top news -->
 <div class="newslist">
-    <h2>信息公告</h2>
-    <a class="news big row" ng-repeat="i in top" href="{{i.link}}">
+    <a class="news big row" ng-repeat="i in news" href="{{i.link}}">
             <div class="small-3 column pic {{i.img?'':'hide'}}">
                 <div class="pic-background" style="background-image:url('{{i.img}}')"></div>
             </div>
@@ -54,17 +53,16 @@
         </a>
     </a>
 </div>
-
-<!-- <div class="newslist" ng-repeat="">
-    <div class="list-title"></div>
-    <a class="news big row" ng-repeat="i in top" href="{{i.herf}}">
-            <div class="small-4 column">
-                <img ng-src="{{i.img}}">
+<div class="newslist">
+    <h2>信息公告</h2>
+    <a class="news big row" ng-repeat="i in info" href="{{i.link}}">
+            <div class="small-3 column pic {{i.img?'':'hide'}}">
+                <div class="pic-background" style="background-image:url('{{i.img}}')"></div>
             </div>
-            <div class="small-8 column">
+            <div class="column {{i.img?'small-9':'small-12'}}">
                 <div class="title">{{i.title}}</div>
                 <div class="date">{{i.date}}</div>
             </div>
         </a>
     </a>
-</div> -->
+</div>
