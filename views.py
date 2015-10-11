@@ -96,25 +96,30 @@ class Index(tornado.web.RequestHandler):
     @coroutine
     def deal(self, content):
         general = parser.ParseIndexGeneral(content)
-        general_link = yield [get_data(i[1], parser.ParsePost) for i in general]
-        ret = []
-        for i in range(len(general)):
-            link = convertUrl(general[i][1], strict=True)
-            if link:
-                data = json.loads(general_link[i])
-                data['link'] = link
-                ret.append(data)
+        print(general)
+        news = yield [get_data(i[1], parser.ParsePost) for i in general['news']]
+        info = yield [get_data(i[1], parser.ParsePost) for i in general['info']]
+        ret = {
+            "news": [json.loads(i) for i in news],
+            "info": [json.loads(i) for i in info],
+        }
+        for n, i in enumerate(ret['news']):
+            i["link"] = convertUrl(general["news"][n][1], strict=True)
+        for n, i in enumerate(ret['info']):
+            i["link"] = convertUrl(general["info"][n][1], strict=True)
         return ret
 
     @coroutine
     def get(self):
         self.set_header("Content-type", 'application/json')
         content = yield [get_data(makeUrl("index"), self.deal), get_data("http://www.new1.uestc.edu.cn/", parser.ParseSlider)]
-        content = {
-            "general": json.loads(content[0]),
+        index = json.loads(content[0])
+        ret = {
+            "news": index["news"],
+            "info": index["info"],
             "slide": json.loads(content[1]),
         }
-        self.write(json.dumps(content))
+        self.write(json.dumps(ret))
 
 
 class NewsCategory(tornado.web.RequestHandler):

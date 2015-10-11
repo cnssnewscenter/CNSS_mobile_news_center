@@ -55,7 +55,10 @@ def convertUrl(url, strict=False):
 
 def ParseIndexGeneral(content):
     index = makeParser(content)
-    return [(i.text_content().strip(), i.attrib['href']) for i in index(".news-left .block-content a")]
+    return {
+        "news": [(i.text_content().strip(), i.attrib['href']) for i in index(".news-left .news-block").eq(0).find(".block-content a")],
+        "info": [(i.text_content().strip(), i.attrib['href']) for i in index(".news-left .news-block").eq(0).find(".block-content a")],
+    }
 
 
 # def ParseIndexSubCategory(content):

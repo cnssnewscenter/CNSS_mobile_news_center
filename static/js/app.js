@@ -67,7 +67,11 @@
         api.changeTitle('新闻中心')
         api.index().then(function(response){
             console.log(response.data)
-            $scope.top = response.data.general.map(function(x){
+            $scope.news = response.data.news.map(function(x){
+                x.img = x.img[0]
+                return x
+            });
+            $scope.info = response.data.info.map(function(x){
                 x.img = x.img[0]
                 return x
             });
@@ -114,7 +118,7 @@
             {name:"教育教学", link:"#/category/43"},
             {name:"科研科学", link:"#/category/44"},
             {name:"合作交流", link:'#/category/45'},
-            {name:"通知公告", link:'#/category/annoucement'},
+            {name:"信息公告", link:'#/category/annoucement'},
         ]
     }])
 
@@ -125,7 +129,7 @@
             {name:"教育教学", link:"#/category/43"},
             {name:"科研科学", link:"#/category/44"},
             {name:"合作交流", link:'#/category/45'},
-            {name:"通知公告", link:'#/category/annoucement'},
+            {name:"信息公告", link:'#/category/annoucement'},
         ]
     }])
 

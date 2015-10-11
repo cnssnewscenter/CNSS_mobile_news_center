@@ -9,6 +9,7 @@ r = redis.Redis()
 logger = logging.getLogger('fetcher')
 logger.setLevel(logging.DEBUG)
 
+
 @tornado.gen.coroutine
 def get_data(key):
     """
@@ -42,10 +43,9 @@ def get_page(url):
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36"
     }
-
     if "new1.uestc.edu.cn" in url:
         url = url.replace("www.new1.uestc.edu.cn", "202.115.22.251")
-        headers['Hosts'] = "www.new1.uestc.edu.cn"
+        headers['Host'] = "www.new1.uestc.edu.cn"
 
     cached = yield get_data(url)
 

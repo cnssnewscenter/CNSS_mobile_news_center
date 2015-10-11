@@ -44,6 +44,7 @@ def runapp():
             (r"/dist/(.*)", tornado.web.StaticFileHandler, {'path': os.path.join(os.path.dirname(__file__), "dist")}),
             (r"/", views.RedirectStaticFileHandler, {"path": 'dist/index.html'})
         ])
+        logging.basicConfig(level=0)
     print(options)
     application = tornado.web.Application(route, **settings)
     application.listen(options.PORT, address="0.0.0.0")
