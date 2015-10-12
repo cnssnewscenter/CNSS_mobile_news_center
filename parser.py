@@ -57,7 +57,7 @@ def ParseIndexGeneral(content):
     index = makeParser(content)
     return {
         "news": [(i.text_content().strip(), i.attrib['href']) for i in index(".news-left .news-block").eq(0).find(".block-content a") if convertUrl(i.attrib['href'], True)],
-        "info": [(i.text_content().strip(), i.attrib['href']) for i in index(".news-left .news-block").eq(0).find(".block-content a") if convertUrl(i.attrib['href'], True)],
+        "info": [(i.text_content().strip(), i.attrib['href']) for i in index(".news-left .news-block").eq(1).find(".block-content a") if convertUrl(i.attrib['href'], True)],
     }
 
 
