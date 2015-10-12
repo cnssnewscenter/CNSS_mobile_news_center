@@ -113,6 +113,7 @@
 
     app.controller("SideCtrl", ['$scope', function($scope){
         $scope.columns = [
+            {name:"首页", link: "#/"},
             {name:"焦点新闻", link:'#/category/42'},
             {name:"校园时讯", link:'#/category/50'},
             {name:"教育教学", link:"#/category/43"},
