@@ -68,11 +68,7 @@
         api.index().then(function(response){
             console.log(response.data)
             $scope.news = response.data.news.map(function(x){
-                x.img = x.img[0]
-                return x
-            });
-            $scope.info = response.data.info.map(function(x){
-                x.img = x.img[0]
+                x.img = x.img ? x.img[0] : null
                 return x
             });
             $scope.slides = response.data.slide;
