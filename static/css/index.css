@@ -233,3 +233,9 @@ nav.nav ul li a {
 body {
   background-color: #f7f7f7;
 }
+li.link {
+  transition: all 0.5s;
+}
+li.link.active {
+  background: #29D;
+}

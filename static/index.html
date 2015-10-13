@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <base href="/mobile/">
-    <title>{{title}}</title>
+    <title>新闻中心</title>
 
     <!-- build:css dist/app.css -->
     <link rel="stylesheet" href="/bower_components/foundation/css/normalize.min.css">
@@ -61,6 +61,13 @@
                 <div class="info">由 凝聚网络安全工作室 提供</div>
             </aside>
             <section class="main-section">
+                <nav class="nav" ng-controller="MenuCtrl" ng-hide="location.$$url.indexOf('post') != -1">
+                    <ul>
+                        <li ng-repeat="item in menus" ng-class="{link: true, active: item.link == '#'+location.$$url}">
+                            <a ng-href="{{item.link}}">{{item.name}}</a>
+                        </li>
+                    </ul>
+                </nav>
                 <div ng-view>
                 </div>
                 <div class="footer">

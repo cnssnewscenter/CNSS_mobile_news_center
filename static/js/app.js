@@ -123,7 +123,7 @@
         ]
     }])
 
-    app.controller("MenuCtrl", ['$scope', function($scope){
+    app.controller("MenuCtrl", ['$scope', "$location", function($scope, $location){
         $scope.menus = [
             {name:"焦点新闻", link:'#/category/42'},
             {name:"校园时讯", link:'#/category/50'},
@@ -132,6 +132,7 @@
             {name:"合作交流", link:'#/category/45'},
             {name:"信息公告", link:'#/category/annoucement'},
         ]
+        $scope.location = $location
     }])
 
     app.controller('annoucementCtrl', ['api', '$scope', '$q', function(api, $scope, $q){
@@ -155,8 +156,6 @@
                 api.loading_finish()
             })
         }
-        setTimeout(function(){
-            $(".icon-bar a:first").click()
-        })
+        $scope.switch(66)
     }])
 })()
