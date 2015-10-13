@@ -95,12 +95,19 @@ class Index(tornado.web.RequestHandler):
 
     @coroutine
     def deal(self, content):
+
+        def compact(l):
+            ret = []
+            for i in l:
+                ret += i
+            return ret
+
         general = parser.ParseIndexGeneral(content)
         news = yield [get_data(i[1], parser.ParsePost) for i in general['news']]
         info = yield [get_data(makeUrl('category', CatId=i), parser.ParseCategory) for i in [66, 67, 68]]
         ret = {
             "news": [json.loads(i) for i in news],
-            "info": [json.loads(i)[:4] for i in info],
+            "info": compact([json.loads(i)[:4] for i in info]),
         }
         for n, i in enumerate(ret['news']):
             i["link"] = convertUrl(general["news"][n][1], strict=True)
