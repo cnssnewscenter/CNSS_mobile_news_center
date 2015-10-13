@@ -36,7 +36,7 @@
 
     app.factory('api', ['$http', function($http){
         var api = {};
-        var prefix = "/mobile/"
+        var prefix = "/mobile"
         // var prefix = ""
         api.passage = function(id){
             return $http.get(prefix+"/api/p/"+ id)
