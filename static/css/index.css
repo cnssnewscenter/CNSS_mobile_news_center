@@ -239,3 +239,6 @@ li.link {
 li.link.active {
   background: #29D;
 }
+.info {
+  text-align: center;
+}
