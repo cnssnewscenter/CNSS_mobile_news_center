@@ -71,6 +71,7 @@
                 x.img = x.img ? x.img[0] : null
                 return x
             });
+            $scope.info = response.data.info;
             $scope.slides = response.data.slide;
             api.loading_finish()
         }, function(){
@@ -113,7 +114,7 @@
             {name:"焦点新闻", link:'#/category/42'},
             {name:"校园时讯", link:'#/category/50'},
             {name:"教育教学", link:"#/category/43"},
-            {name:"科研科学", link:"#/category/44"},
+            {name:"科研学术", link:"#/category/44"},
             {name:"合作交流", link:'#/category/45'},
             {name:"信息公告", link:'#/category/annoucement'},
         ]
@@ -124,7 +125,7 @@
             {name:"焦点新闻", link:'#/category/42'},
             {name:"校园时讯", link:'#/category/50'},
             {name:"教育教学", link:"#/category/43"},
-            {name:"科研科学", link:"#/category/44"},
+            {name:"科研学术", link:"#/category/44"},
             {name:"合作交流", link:'#/category/45'},
             {name:"信息公告", link:'#/category/annoucement'},
         ]
