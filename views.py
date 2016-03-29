@@ -89,7 +89,7 @@ class Index(tornado.web.RequestHandler):
 
     """
     首页
-    轮播图数据来自于新闻中心首页
+    轮播图数据来自于焦点新闻（有图的）
     下方新闻来自于首页的新闻汇总
     """
 
@@ -116,7 +116,7 @@ class Index(tornado.web.RequestHandler):
     @coroutine
     def get(self):
         self.set_header("Content-type", 'application/json')
-        content = yield [get_data(makeUrl("index"), self.deal), get_data("http://www.new1.uestc.edu.cn/", parser.ParseSlider)]
+        content = yield [get_data(makeUrl("index"), self.deal), get_data(makeUrl("category", 42), parser.ParseCategory)]
         index = json.loads(content[0])
         ret = {
             "news": index["news"],
