@@ -1,8 +1,32 @@
 (function(){
     var app = angular.module('MobileNews', ['mm.foundation', 'slick', 'ngRoute', 'angular-loading-bar', 'angular-spinkit', 'ngAnimate'])
 
-    var CATEGORYS = {
-        focus: 42,
+    function findQuery(name, query){
+      var vars = query.split('&');
+      for (var i = 0; i < vars.length; i++) {
+          var pair = vars[i].split('=');
+          if (decodeURIComponent(pair[0]) == variable) {
+              return decodeURIComponent(pair[1]);
+          }
+      }
+    }
+    function getQueryVariable(variable) {
+      var query = window.location.search.substring(1);
+      return findQuery(variable, query)
+    }
+    function getJump(url){
+      try{
+        var query = url.split("?").slice(1)
+        var view = findQuery("n")
+        if (/ArticlePage/.test(view) && findQuery("Id")){
+          return "/post/" + findQuery("Id")
+        }else if (/Category\.Page/.test(view) && findQuery("CatId")){
+          return "/category/" + findQuery("CatId")
+        }
+      } catch(e){
+        console.error(e)
+        return
+      }
 
     }
     app.config(["$routeProvider", '$locationProvider', function($routeProvider, $locationProvider){
@@ -51,13 +75,17 @@
         return api;
     }])
 
-    app.run(["$rootScope", 'api', "$route",  function($rootScope, api, $route){
+    app.run(["$rootScope", 'api', "$route", "$location", function($rootScope, api, $route, $location){
+        var origin = getQueryVariable("from")
         api.changeTitle = function(title){
             $rootScope.title = title
         }
         api.loading_finish = function(){
             $rootScope.loading = false;
             console.log('loading finish!')
+        }
+        if(origin && getJump(origin)){
+          $location.url(getJump(origin))
         }
         $rootScope.title = '新闻中心'
         $rootScope.loading = true
