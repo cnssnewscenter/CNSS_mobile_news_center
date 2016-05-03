@@ -9,6 +9,7 @@ import logging
 import json
 from tornado.options import options
 import os
+from tornado.httpclient import HTTPError
 
 
 logger = logging.getLogger("View")
@@ -85,6 +86,7 @@ class News(tornado.web.RequestHandler):
         self.write(content)
 
 
+
 class Index(tornado.web.RequestHandler):
 
     """
@@ -101,14 +103,25 @@ class Index(tornado.web.RequestHandler):
             for i in l:
                 ret += i
             return ret
-
         general = parser.ParseIndexGeneral(content)
-        news = yield [get_data(i[1], parser.ParsePost) for i in general['news']]
-        info = yield [get_data(makeUrl('category', CatId=i), parser.ParseCategory) for i in [66, 67, 68]]
-        ret = {
-            "news": [json.loads(i) for i in news],
-            "info": compact([json.loads(i)[:4] for i in info]),
-        }
+
+        tries = 4
+        while tries > 0:
+            try:
+                news = yield [get_data(i[1], parser.ParsePost) for i in general['news']]
+                info = yield [get_data(makeUrl('category', CatId=i), parser.ParseCategory) for i in [66, 67, 68]]
+
+                ret = {
+                    "news": [json.loads(i) for i in news],
+                    "info": compact([json.loads(i)[:4] for i in info]),
+                }
+                break
+            except HTTPError as e:
+                tries -= 1
+                print("503, Retry.....")
+                yield tornado.gen.sleep(.1)
+                continue
+
         for n, i in enumerate(ret['news']):
             i["link"] = convertUrl(general["news"][n][1], strict=True)
         return ret
@@ -116,7 +129,7 @@ class Index(tornado.web.RequestHandler):
     @coroutine
     def get(self):
         self.set_header("Content-type", 'application/json')
-        content = yield [get_data(makeUrl("index"), self.deal), get_data(makeUrl("category", 42), parser.ParseCategory)]
+        content = yield [get_data(makeUrl("index"), self.deal), get_data(makeUrl("category", CatId=42), parser.ParseCategory)]
         index = json.loads(content[0])
         ret = {
             "news": index["news"],
