@@ -1,2 +1,2 @@
-web: python app.py
 redis: redis-server /etc/redis.conf
+web: python app.py
