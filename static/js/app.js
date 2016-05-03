@@ -5,7 +5,7 @@
       var vars = query.split('&');
       for (var i = 0; i < vars.length; i++) {
           var pair = vars[i].split('=');
-          if (decodeURIComponent(pair[0]) == variable) {
+          if (decodeURIComponent(pair[0]) == name) {
               return decodeURIComponent(pair[1]);
           }
       }
@@ -15,18 +15,18 @@
       return findQuery(variable, query)
     }
     function getJump(url){
-      try{
-        var query = url.split("?").slice(1)
-        var view = findQuery("n")
-        if (/ArticlePage/.test(view) && findQuery("Id")){
-          return "/post/" + findQuery("Id")
-        }else if (/Category\.Page/.test(view) && findQuery("CatId")){
-          return "/category/" + findQuery("CatId")
+      // try{
+        var query = url.split("?").slice(1)[0]
+        var view = findQuery("n", query)
+        if (/ArticlePage/.test(view) && findQuery("Id", query)){
+          return "/post/" + findQuery("Id", query)
+        }else if (/Category\.Page/.test(view) && findQuery("CatId", query)){
+          return "/category/" + findQuery("CatId", query)
         }
-      } catch(e){
-        console.error(e)
-        return
-      }
+      // } catch(e){
+      //   console.error(e)
+      //   return
+      // }
 
     }
     app.config(["$routeProvider", '$locationProvider', function($routeProvider, $locationProvider){
