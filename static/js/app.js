@@ -15,7 +15,7 @@
       return findQuery(variable, query)
     }
     function getJump(url){
-      // try{
+      try{
         var query = url.split("?").slice(1)[0]
         var view = findQuery("n", query)
         if (/ArticlePage/.test(view) && findQuery("Id", query)){
@@ -23,10 +23,10 @@
         }else if (/Category\.Page/.test(view) && findQuery("CatId", query)){
           return "/category/" + findQuery("CatId", query)
         }
-      // } catch(e){
-      //   console.error(e)
-      //   return
-      // }
+      } catch(e){
+        console.error(e)
+        return
+      }
 
     }
     app.config(["$routeProvider", '$locationProvider', function($routeProvider, $locationProvider){
