@@ -33,7 +33,8 @@
     <!-- endbuild -->
     <script>
     if(/UC/.test(navigator.userAgent) || !window.CSS || !window.CSS.supports || !window.CSS.supports("width", "100vw")){
-      document.body.className += "unsupported"
+      document.body.className = "unsupport";
+      console.log("unsupported browser detected");
     }
     </script>
 

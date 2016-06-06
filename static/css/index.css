@@ -147,7 +147,7 @@ nav.nav ul li {
   list-style: none;
 }
 .unsupport nav.nav ul li {
-  width: 6em;
+  width: 25%;
 }
 nav.nav ul li a {
   color: white;
