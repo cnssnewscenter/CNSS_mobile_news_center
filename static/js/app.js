@@ -98,7 +98,7 @@
         $rootScope.loading = true
         if(/UC/.test(navigator.userAgent) || !window.CSS || !window.CSS.supports || !window.CSS.supports("width", "100vw")){
           document.body.className = "unsupport";
-          $log("unsupported browser detected");
+          $log.log("unsupported browser detected");
         }
     }])
 
