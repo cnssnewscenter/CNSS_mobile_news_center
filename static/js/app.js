@@ -86,6 +86,8 @@
         }
         if(origin && getJump(origin)){
           $location.url(getJump(origin))
+        }else{
+          $location.url("/")
         }
         $rootScope.title = '新闻中心'
         $rootScope.loading = true
