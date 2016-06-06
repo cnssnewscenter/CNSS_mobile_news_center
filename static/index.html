@@ -32,7 +32,7 @@
     <script src="/static/js/app.js"></script>
     <!-- endbuild -->
     <script>
-    if(!window.CSS || !window.CSS.supports || !window.CSS.supports("width", "100vw")){
+    if(/UC/.test(navigator.userAgent) || !window.CSS || !window.CSS.supports || !window.CSS.supports("width", "100vw")){
       document.body.className += "unsupported"
     }
     </script>

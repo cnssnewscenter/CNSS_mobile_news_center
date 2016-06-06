@@ -77,6 +77,10 @@ h3.passage{
   position: fixed;
   display: flex;
   background-color: #0F6EA7;
+  .unsupport & {
+    width: 100%;
+    height: 100%;
+  }
 }
 .full-page cube-grid-spinner{
   margin: auto
@@ -140,6 +144,9 @@ nav.nav ul li{
     height: 2em;
     line-height: 2em;
     list-style: none;
+    .unsupport & {
+      width: 6em;
+    }
 }
 nav.nav ul li a{
     color:white;
