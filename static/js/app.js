@@ -29,7 +29,7 @@
           return "/category/" + findQuery("CatId", query)
         }
       } catch(e){
-        console.error(e)
+        console && console.error && console.error(e)
         return
       }
 
@@ -65,8 +65,8 @@
 
     app.factory('api', ['$http', function($http){
         var api = {};
-        var prefix = "/mobile"
-        // var prefix = ""
+        // var prefix = "/mobile"
+        var prefix = ""
         api.passage = function(id){
             return $http.get(prefix+"/api/p/"+ id)
         }
@@ -80,7 +80,7 @@
         return api;
     }])
 
-    app.run(["$rootScope", 'api', "$route", "$location", function($rootScope, api, $route, $location){
+    app.run(["$rootScope", 'api', "$route", "$location", "$log", function($rootScope, api, $route, $location, $log){
         var origin = getQueryVariable("from")
         api.changeTitle = function(title){
             $rootScope.title = title
@@ -96,6 +96,10 @@
         }
         $rootScope.title = '新闻中心'
         $rootScope.loading = true
+        if(/UC/.test(navigator.userAgent) || !window.CSS || !window.CSS.supports || !window.CSS.supports("width", "100vw")){
+          document.body.className = "unsupport";
+          $log("unsupported browser detected");
+        }
     }])
 
     app.controller('IndexCtrl', ['api', '$scope', '$q', function(api, $scope, $q){

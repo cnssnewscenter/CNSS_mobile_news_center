@@ -3,7 +3,6 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <base href="/mobile/">
     <title>新闻中心</title>
 
     <!-- build:css dist/app.css -->
@@ -31,13 +30,6 @@
 
     <script src="/static/js/app.js"></script>
     <!-- endbuild -->
-    <script>
-    if(/UC/.test(navigator.userAgent) || !window.CSS || !window.CSS.supports || !window.CSS.supports("width", "100vw")){
-      document.body.className = "unsupport";
-      console.log("unsupported browser detected");
-    }
-    </script>
-
   </head>
   <body>
     <div class="full-page loading" ng-if="loading">
