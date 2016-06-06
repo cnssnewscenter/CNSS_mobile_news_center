@@ -2,7 +2,12 @@
     var app = angular.module('MobileNews', ['mm.foundation', 'slick', 'ngRoute', 'angular-loading-bar', 'angular-spinkit', 'ngAnimate'])
 
     function findQuery(name, query){
-      var vars = query.split('&');
+      var vars;
+      if (query.indexOf("&") > 1){
+        vars = query.split('&');
+      }else{
+        vars = [query]
+      }
       for (var i = 0; i < vars.length; i++) {
           var pair = vars[i].split('=');
           if (decodeURIComponent(pair[0]) == name) {
