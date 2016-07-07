@@ -15,7 +15,10 @@ var option = {
     quotes: true,
     spare: true
 }
-
+if(process.version.slice(1, 2) == "6"){
+    console.error("Cannot build in node6")
+    process.exit()
+}
 gulp.task('script',function() {
     var assets = useref.assets({searchPath: '.'});
     return gulp.src("static/index.html")

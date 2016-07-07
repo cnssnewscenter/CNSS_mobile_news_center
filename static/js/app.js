@@ -81,7 +81,7 @@
     }])
 
     app.run(["$rootScope", 'api', "$route", "$location", "$log", function($rootScope, api, $route, $location, $log){
-        var origin = getQueryVariable("from")
+        var origin = getQueryVariable("d98a07f84921b24ee30f86fd8cd85c3c")
         api.changeTitle = function(title){
             $rootScope.title = title
         }
