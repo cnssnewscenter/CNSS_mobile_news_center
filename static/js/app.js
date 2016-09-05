@@ -18,6 +18,8 @@
     function getQueryVariable(variable) {
       var query = window.location.search.substring(1);
       return findQuery(variable, query)
+    function buildLink(params) {
+      return "http://www.new1.uestc.edu.cn/?n=UestcNews.Front.Document.ArticlePage&Id=" + params.id
     }
     function getJump(url){
       try{
@@ -120,9 +122,11 @@
     }])
 
     app.controller('PassageCtrl', ['api', '$scope', '$routeParams', '$sce', function(api, $scope, $routeParams, $sce){
+
         api.passage($routeParams.id).then(function(result){
             $scope.passage = result.data;
             $scope.passage.content = $sce.trustAsHtml(result.data.content)
+            $scope.passage.pc_link = buildLink($routeParams)
             api.changeTitle(result.data.title)
             console.log("loaded passage of ", $routeParams.id)
             api.loading_finish()
