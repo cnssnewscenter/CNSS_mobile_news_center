@@ -1,42 +1,30 @@
 (function(){
     var app = angular.module('MobileNews', ['mm.foundation', 'slick', 'ngRoute', 'angular-loading-bar', 'angular-spinkit', 'ngAnimate'])
 
-    function findQuery(name, query){
-      var vars;
-      if (query.indexOf("&") > 1){
-        vars = query.split('&');
-      }else{
-        vars = [query]
+    //http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
+    function getParameterByName(name, url) {
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    function parseLink(link) {
+      if (/ArticlePage/.test(link) && getParameterByName("Id", link)){
+        return '/post/' + getParameterByName("Id", link)
       }
-      for (var i = 0; i < vars.length; i++) {
-          var pair = vars[i].split('=');
-          if (decodeURIComponent(pair[0]) == name) {
-              return decodeURIComponent(pair[1]);
-          }
+      if (/Category/.test(link) && getParameterByName("CatId", link)) {
+        return '/category/' + getParameterByName("CatId", link)
       }
     }
-    function getQueryVariable(variable) {
-      var query = window.location.search.substring(1);
-      return findQuery(variable, query)
     function buildLink(params) {
       return "http://www.new1.uestc.edu.cn/?n=UestcNews.Front.Document.ArticlePage&Id=" + params.id
     }
-    function getJump(url){
-      try{
-        var query = url.split("?").slice(1)[0]
-        var view = findQuery("n", query)
-        if (/ArticlePage/.test(view) && findQuery("Id", query)){
-          return "/post/" + findQuery("Id", query)
-        }else if (/Category\.Page/.test(view) && findQuery("CatId", query)){
-          return "/category/" + findQuery("CatId", query)
-        }
-      } catch(e){
-        console && console.error && console.error(e)
-        return
-      }
 
-    }
     app.config(["$routeProvider", '$locationProvider', function($routeProvider, $locationProvider){
+        $locationProvider.html5Mode(true)
         $routeProvider.when("/", {
             controller: "IndexCtrl",
             templateUrl: '/static/templates/index.html'
@@ -83,18 +71,12 @@
     }])
 
     app.run(["$rootScope", 'api', "$route", "$location", "$log", function($rootScope, api, $route, $location, $log){
-        var origin = getQueryVariable("d98a07f84921b24ee30f86fd8cd85c3c")
         api.changeTitle = function(title){
             $rootScope.title = title
         }
         api.loading_finish = function(){
             $rootScope.loading = false;
             console.log('loading finish!')
-        }
-        if(origin && getJump(origin)){
-          $location.url(getJump(origin))
-        }else{
-          $location.url("/")
         }
         $rootScope.title = '新闻中心'
         $rootScope.loading = true
@@ -104,21 +86,25 @@
         }
     }])
 
-    app.controller('IndexCtrl', ['api', '$scope', '$q', function(api, $scope, $q){
+    app.controller('IndexCtrl', ['api', '$scope', '$routeParams', '$location', function(api, $scope, $routeParams, $location){
         api.changeTitle('新闻中心')
-        api.index().then(function(response){
-            console.log(response.data)
-            $scope.news = response.data.news.map(function(x){
-                x.img = x.img ? x.img[0] : null
-                return x
-            });
-            $scope.info = response.data.info;
-            $scope.slides = response.data.slide;
-            api.loading_finish()
-        }, function(){
-            alert("载入失败了，刷新试试？")
-        })
-
+        if ($routeParams['d98a07f84921b24ee30f86fd8cd85c3c']) {
+          var link = parseLink($routeParams['d98a07f84921b24ee30f86fd8cd85c3c'])
+          link && $location.url(link)
+        } else {
+          api.index().then(function(response){
+              console.log(response.data)
+              $scope.news = response.data.news.map(function(x){
+                  x.img = x.img ? x.img[0] : null
+                  return x
+              });
+              $scope.info = response.data.info;
+              $scope.slides = response.data.slide;
+              api.loading_finish()
+          }, function(){
+              alert("载入失败了，刷新试试？")
+          })
+        }
     }])
 
     app.controller('PassageCtrl', ['api', '$scope', '$routeParams', '$sce', function(api, $scope, $routeParams, $sce){

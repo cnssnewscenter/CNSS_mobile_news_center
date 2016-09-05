@@ -151,13 +151,13 @@ class NewsCategory(tornado.web.RequestHandler):
 
 class RedirectStaticFileHandler(tornado.web.StaticFileHandler):
 
-    def initialize(self, path, default_filename=None):
+    def initialize(self, path):
         root, self.filename = os.path.split(path)
         super(RedirectStaticFileHandler, self).initialize(root)
 
     @coroutine
     def get(self, include_body=True):
-        yield super(RedirectStaticFileHandler, self).get(self.filename)
+        yield super(RedirectStaticFileHandler, self).get(self.filename, include_body)
 
 
 class CleanCache(tornado.web.RequestHandler):

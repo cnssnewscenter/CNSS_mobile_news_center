@@ -34,7 +34,7 @@ def runapp():
         route.extend([
             (r"/bower_components/(.*)", tornado.web.StaticFileHandler, {'path': "bower_components/"}),
             (r"/dist/(.*)", tornado.web.StaticFileHandler, {'path': os.path.join(os.path.dirname(__file__), "static")}),
-            (r"/", views.RedirectStaticFileHandler, {"path": 'static/index.html'})
+            (r"/.*", views.RedirectStaticFileHandler, {"path": 'static/index.html'})
         ])
         settings['static_path'] = os.path.join(os.path.dirname(__file__), "static")
         logging.basicConfig(level=0)
@@ -42,7 +42,7 @@ def runapp():
         route.extend([
             # (r"/bower_components/(.*)", tornado.web.StaticFileHandler, {'path': "bower_components/"}),
             (r"/dist/(.*)", tornado.web.StaticFileHandler, {'path': os.path.join(os.path.dirname(__file__), "dist")}),
-            (r"/", views.RedirectStaticFileHandler, {"path": 'dist/index.html'})
+            (r"/.*", views.RedirectStaticFileHandler, {"path": 'dist/index.html'})
         ])
         logging.basicConfig(level=0)
     print(options)
