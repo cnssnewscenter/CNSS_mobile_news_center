@@ -163,7 +163,7 @@ nav.nav ul li a {
 }
 .tab-bar .left img {
   height: 24px;
-  width: auto;
+  width: 104.625px;
   margin-top: -3px;
   padding-left: 9px;
 }
@@ -253,4 +253,13 @@ li.link.active {
 }
 .info {
   text-align: center;
+}
+.pc {
+  text-align: right;
+  padding-bottom: .5em;
+  padding-right: 2em;
+}
+.pc a {
+  color: #797979;
+  border-bottom: dotted 2px;
 }
