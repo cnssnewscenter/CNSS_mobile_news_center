@@ -41,12 +41,12 @@ def convertUrl(url, strict=False):
 
         data = parse_qs(u.query)
         if data.get('n')[0] == "UestcNews.Front.Category.Page":
-            return "#/category/"+data.get("CatId")[0]+"?page="+data.get('page', ["1"])[0]
+            return "/category/"+data.get("CatId")[0]+"?page="+data.get('page', ["1"])[0]
         if data.get("n")[0] == "UestcNews.Front.Document.ArticlePage":
-            return "#/post/"+data.get("Id")[0]
+            return "/post/"+data.get("Id")[0]
 
     if "www.uestc.edu.cn" == u.netloc and u.path in ["", '/']:
-        return "#/"
+        return "/"
     logger.warn("unrecognized url found: %s", url)
     if strict:
         return None
