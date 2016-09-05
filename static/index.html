@@ -47,7 +47,7 @@
                 </section>
 
                 <section class="middle tab-bar-section">
-                    <h1 class="center title"><a href="#/" style="color: white">新闻中心</a></h1>
+                    <h1 class="center title"><a href="/" style="color: white">新闻中心</a></h1>
                 </section>
             </nav>
 
@@ -61,7 +61,7 @@
             <section class="main-section">
                 <nav class="nav" ng-controller="MenuCtrl" ng-hide="location.$$url.indexOf('post') != -1">
                     <ul>
-                        <li ng-repeat="item in menus" ng-class="{link: true, active: item.link == '#'+location.$$url}">
+                        <li ng-repeat="item in menus" ng-class="{link: true, active: item.link == location.$$url}">
                             <a ng-href="{{item.link}}">{{item.name}}</a>
                         </li>
                     </ul>

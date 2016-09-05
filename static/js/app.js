@@ -139,24 +139,24 @@
 
     app.controller("SideCtrl", ['$scope', function($scope){
         $scope.columns = [
-            {name:"首页", link: "#/"},
-            {name:"焦点新闻", link:'#/category/42'},
-            {name:"校园时讯", link:'#/category/50'},
-            {name:"教育教学", link:"#/category/43"},
-            {name:"科研学术", link:"#/category/44"},
-            {name:"合作交流", link:'#/category/45'},
-            {name:"信息公告", link:'#/category/annoucement'},
+            {name:"首页", link: "/"},
+            {name:"焦点新闻", link:'/category/42'},
+            {name:"校园时讯", link:'/category/50'},
+            {name:"教育教学", link:"/category/43"},
+            {name:"科研学术", link:"/category/44"},
+            {name:"合作交流", link:'/category/45'},
+            {name:"信息公告", link:'/category/annoucement'},
         ]
     }])
 
     app.controller("MenuCtrl", ['$scope', "$location", function($scope, $location){
         $scope.menus = [
-            {name:"焦点新闻", link:'#/category/42'},
-            {name:"校园时讯", link:'#/category/50'},
-            {name:"教育教学", link:"#/category/43"},
-            {name:"科研学术", link:"#/category/44"},
-            {name:"合作交流", link:'#/category/45'},
-            {name:"信息公告", link:'#/category/annoucement'},
+            {name:"焦点新闻", link:'/category/42'},
+            {name:"校园时讯", link:'/category/50'},
+            {name:"教育教学", link:"/category/43"},
+            {name:"科研学术", link:"/category/44"},
+            {name:"合作交流", link:'/category/45'},
+            {name:"信息公告", link:'/category/annoucement'},
         ]
         $scope.location = $location
     }])
