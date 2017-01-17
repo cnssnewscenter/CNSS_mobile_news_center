@@ -90,7 +90,7 @@
         api.changeTitle('新闻中心')
         if ($routeParams['d98a07f84921b24ee30f86fd8cd85c3c']) {
           var link = parseLink($routeParams['d98a07f84921b24ee30f86fd8cd85c3c'])
-          link && $location.url(link)
+          $location.url(link ? link : '/')
         } else {
           api.index().then(function(response){
               console.log(response.data)
