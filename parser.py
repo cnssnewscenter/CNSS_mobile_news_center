@@ -8,8 +8,8 @@ from urllib.parse import urlsplit, parse_qs
 
 
 cleaner = Cleaner(javascript=True, scripts=True, style=True)
-SinglePost = re.compile(r"http:\/\/www\.new1\.uestc\.edu\.cn\/\?n\=UestcNews\.Front\.Document\.ArticlePage\&Id\=(\d+)")
-Column = re.compile(r"http:\/\/www\.new1\.uestc\.edu\.cn\/\?n\=UestcNews.Front.Category.Page&CatId=42")
+SinglePost = re.compile(r"http:\/\/www\.news\.uestc\.edu\.cn\/\?n\=UestcNews\.Front\.Document\.ArticlePage\&Id\=(\d+)")
+Column = re.compile(r"http:\/\/www\.news\.uestc\.edu\.cn\/\?n\=UestcNews.Front.Category.Page&CatId=42")
 
 
 logger = logging.getLogger("parser")
@@ -31,10 +31,10 @@ def convertUrl(url, strict=False):
     logger.debug(url)
     if not url:
         return None
-    if "http://www.new1.uestc.edu.cn/" == url:
+    if "http://www.news.uestc.edu.cn/" == url:
         return "index_2"
     if url.startswith("/") and url.split('.')[-1].lower() in ["jpg", "gif", "jpeg", "png"]:
-        return "http://www.new1.uestc.edu.cn" + url
+        return "http://www.news.uestc.edu.cn" + url
     # try to parse
     u = urlsplit(url)
     if "/?" in url:
@@ -84,7 +84,7 @@ def ParsePost(content):
                 collectd.append(i.attrib['src'])
         editor = [i.strip().replace('\u3000', ' ') for i in p(".Degas_news_content").next().text().split("/")]
         content = tostring(content)
-        info = [re.sub(r"\s+", " ", i.strip()) for i in p('.Degas_news_info .left').text().split("/")]
+        info = [re.sub(r"\s+", " ", i.strip()) for i in p('.Degas_news_info').text().split("/")]
         sub = p('#Degas_news_list > h3').text().strip() if p('#Degas_news_list > h3') else None
         return {
             "title": title,

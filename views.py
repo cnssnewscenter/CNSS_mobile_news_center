@@ -43,10 +43,10 @@ def makeUrl(type, **kwargs):
     logger.debug("make url %s, %s", type, kwargs)
 
     if "post" == type:
-        return "http://www.new1.uestc.edu.cn/?n=UestcNews.Front.Document.ArticlePage&Id={Id}".format_map(kwargs)
+        return "http://www.news.uestc.edu.cn/?n=UestcNews.Front.Document.ArticlePage&Id={Id}".format_map(kwargs)
     elif "category" == type:
         kwargs['page'] = kwargs.get("page", "1")
-        return "http://www.new1.uestc.edu.cn/?n=UestcNews.Front.Category.Page&CatId={CatId}&page={page}".format_map(kwargs)
+        return "http://www.news.uestc.edu.cn/?n=UestcNews.Front.Category.Page&CatId={CatId}&page={page}".format_map(kwargs)
     elif "index" == type:
         return "http://www.uestc.edu.cn"
     else:
@@ -86,7 +86,6 @@ class News(tornado.web.RequestHandler):
         self.write(content)
 
 
-
 class Index(tornado.web.RequestHandler):
 
     """
@@ -116,7 +115,7 @@ class Index(tornado.web.RequestHandler):
                     "info": compact([json.loads(i)[:4] for i in info]),
                 }
                 break
-            except HTTPError as e:
+            except HTTPError:
                 tries -= 1
                 print("503, Retry.....")
                 yield tornado.gen.sleep(.1)

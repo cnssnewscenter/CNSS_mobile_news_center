@@ -4,8 +4,10 @@ from tornado.options import options
 import tornado.gen
 from tornado.log import logging
 
+import os
 
-r = redis.Redis()
+r = redis.Redis(host=os.environ.get("REDIS_PORT_6379_TCP_ADDR", "localhost"))
+
 logger = logging.getLogger('fetcher')
 logger.setLevel(logging.DEBUG)
 
@@ -43,10 +45,6 @@ def get_page(url):
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36"
     }
-    if "new1.uestc.edu.cn" in url:
-        url = url.replace("www.new1.uestc.edu.cn", "202.115.22.251")
-        headers['Host'] = "www.new1.uestc.edu.cn"
-
     cached = yield get_data(url)
 
     if cached and cached != "[]":
