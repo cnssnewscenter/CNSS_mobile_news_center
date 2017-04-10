@@ -82,7 +82,7 @@ def ParsePost(content):
             if 'src' in i.attrib:
                 i.attrib['src'] = convertUrl(i.attrib['src'])
                 collectd.append(i.attrib['src'])
-        for i in p(content).find("a[href^=upload]"):
+        for i in p(content).find("a[href^=/upload]"):
             i.attrib['href'] = convertUrl(i.attrib['href'])
         editor = [i.strip().replace('\u3000', ' ') for i in p(".Degas_news_content").next().text().split("/")]
         content = tostring(content)
