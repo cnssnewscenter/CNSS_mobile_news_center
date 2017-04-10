@@ -33,7 +33,7 @@ def convertUrl(url, strict=False):
         return None
     if "http://www.news.uestc.edu.cn/" == url:
         return "index_2"
-    if url.startswith("/") and url.split('.')[-1].lower() in ["jpg", "gif", "jpeg", "png"]:
+    if url.startswith("/upload"):
         return "http://www.news.uestc.edu.cn" + url
     # try to parse
     u = urlsplit(url)
