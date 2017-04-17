@@ -76,6 +76,7 @@ def ParsePost(content):
         p = makeParser(content)
         title = p(".Degas_news_title").text()
         content = p(".Degas_news_content:first")[0]
+        p(content).find('[width]').remove_attr('width')
         imgs = p(content).find('img')
         collectd = []
         for i in imgs:
