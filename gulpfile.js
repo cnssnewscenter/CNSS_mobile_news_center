@@ -8,6 +8,7 @@ var gulp = require("gulp"),
     debug = require("gulp-debug"),
     rename = require("gulp-rename")
     concat = require('gulp-concat'),
+    hash_src = require("gulp-hash-src");
     angularTemplates = require('gulp-angular-templates');
  
 var option = {
@@ -26,7 +27,6 @@ gulp.task('script',function() {
         .pipe(gulpif("*.css", minifyCss()))
         .pipe(gulpif(/.*\/app\.js/, uglify()))
         //.pipe(gulpif("*.js", uglify()))
-        //.pipe(rev())
         .pipe(debug({title: "combined"}))
         .pipe(rename(function(f){
             f.dirname = ""
@@ -34,7 +34,16 @@ gulp.task('script',function() {
         .pipe(assets.restore())
         .pipe(useref())
         .pipe(debug({title: "Changed"}))
-        //.pipe(revReplace())
+        .pipe(hash_src({
+            build_dir: "./",
+            src_path: "./",
+            verbose: true,
+            exts: [".js", ".css"],
+            destination_path: function(build_dir, link){
+                console.log(build_dir, link)
+                return build_dir + link.replace(/^static/, "")
+            }
+        }))
         //.pipe(gulpif("*.html",minifyInline()))
         //.pipe(gulpif("*.html",minifyHTML(option)))
         //.pipe(gulpif("*.html",entities('decode')))
