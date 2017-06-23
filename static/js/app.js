@@ -73,6 +73,7 @@
     app.run(["$rootScope", 'api', "$route", "$location", "$log", function($rootScope, api, $route, $location, $log){
         api.changeTitle = function(title){
             $rootScope.title = title
+            document.title = title
         }
         api.loading_finish = function(){
             $rootScope.loading = false;
